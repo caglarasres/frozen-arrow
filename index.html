@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Frozen Arrow: an obstacle concept for the arrow puzzle game Amaze GO! Three frost layers that melt as arrows fly past.">
+<style>:root{color-scheme:light}body{margin:0}[hidden]{display:none!important}</style>
+<title>Frozen Arrow</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Figtree:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column. Four layer tiles on top, then the game board with a small control panel beside it.
+   The board and tiles keep the game's parchment ground in both themes; only the page around them follows the theme. */
+:root{
+  --page:#FAF7F0; --ink:#2B241E; --muted:#74695D; --rule:#E4DBCB;
+  --ice:#2F86BE; --on-ice:#FFFFFF; --ice-soft:#DCEEF8; --surface:#FFFFFF;
+  --board:#F3EBDA; --board-rule:#E2D6BF;
+  --display:'Fredoka','Trebuchet MS',system-ui,sans-serif;
+  --body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'DM Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --page:#12181D; --ink:#E8EEF2; --muted:#93A2AE; --rule:#26323B;
+    --ice:#7CC6F0; --on-ice:#0D1A22; --ice-soft:#1B3442; --surface:#1A2229;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --page:#12181D; --ink:#E8EEF2; --muted:#93A2AE; --rule:#26323B;
+  --ice:#7CC6F0; --on-ice:#0D1A22; --ice-soft:#1B3442; --surface:#1A2229;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--page);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-inline:20px;padding-block:40px 64px}
+.wrap{max-width:940px;margin-inline:auto;display:flex;flex-direction:column;gap:40px}
+header{display:flex;flex-direction:column;gap:8px}
+.eyebrow{margin:0;font-size:12.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ice)}
+h1{margin:0;font-family:var(--display);font-weight:600;font-size:clamp(2.2rem,6vw,3.2rem);line-height:1.05}
+.lead{margin:0;color:var(--muted);font-size:1.05rem}
+
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tile{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.tile canvas,.board{display:block;width:100%;max-width:100%;aspect-ratio:1/1;background:var(--board);border:1px solid var(--board-rule);border-radius:18px}
+.tile figcaption{display:flex;justify-content:space-between;align-items:baseline;gap:4px 8px;flex-wrap:wrap}
+.tile b{font-family:var(--display);font-weight:600}
+.tile span{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+
+.stage{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:28px;align-items:start}
+.board{touch-action:manipulation;cursor:pointer}
+.panel{display:flex;flex-direction:column;gap:20px;min-width:0}
+.status{display:flex;align-items:center;gap:14px}
+.pips{display:flex;gap:7px;padding-inline:3px}
+.pip{width:13px;height:13px;transform:rotate(45deg);border-radius:3px;border:1.5px solid var(--ice);transition:background-color .3s}
+.pip.on{background:var(--ice)}
+.status strong{display:block;font-family:var(--display);font-weight:600;font-size:1.15rem;line-height:1.2}
+.status small{display:block;color:var(--muted);font-size:.92rem}
+
+.row{display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;color:inherit}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border-radius:999px;border:1px solid var(--rule);background:var(--surface);font-weight:600;font-size:.94rem;cursor:pointer}
+.btn svg{color:var(--ice);flex:none}
+.btn.primary{background:var(--ice);border-color:var(--ice);color:var(--on-ice)}
+.btn[aria-pressed="true"]{background:var(--ice-soft);border-color:var(--ice)}
+.btn:focus-visible,.board:focus-visible{outline:2px solid var(--ice);outline-offset:2px}
+
+@media (max-width:760px){.stage{grid-template-columns:minmax(0,1fr)}.board{max-width:440px}}
+@media (max-width:620px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <header>
+    <p class="eyebrow">Amaze GO! · obstacle concept</p>
+    <h1>Frozen Arrow</h1>
+    <p class="lead">Each arrow that flies past melts one layer.</p>
+  </header>
+
+  <section class="tiles" aria-label="Frost layers">
+    <figure class="tile"><canvas id="tile-0" role="img" aria-label="Normal arrow"></canvas><figcaption><b>Normal</b><span>tappable</span></figcaption></figure>
+    <figure class="tile"><canvas id="tile-1" role="img" aria-label="Light Frost: thin rime on the corners and tip"></canvas><figcaption><b>Light Frost</b><span>1 pass</span></figcaption></figure>
+    <figure class="tile"><canvas id="tile-2" role="img" aria-label="Mid Frost: ice crust over most of the arrow"></canvas><figcaption><b>Mid Frost</b><span>2 passes</span></figcaption></figure>
+    <figure class="tile"><canvas id="tile-3" role="img" aria-label="Deep Frost: thick ice with icicles over the whole arrow"></canvas><figcaption><b>Deep Frost</b><span>3 passes</span></figcaption></figure>
+  </section>
+
+  <section class="stage" aria-label="Playable board">
+    <canvas id="board" class="board" role="img" tabindex="0" aria-label="Game board with a frozen arrow and three normal arrows. Tap the arrows."></canvas>
+    <div class="panel">
+      <div class="status" aria-live="polite">
+        <div class="pips" aria-hidden="true"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i></div>
+        <div><strong id="st-name">Deep Frost</strong><small id="st-sub">3 passes to go</small></div>
+      </div>
+      <div class="row">
+        <button class="btn primary" id="auto" type="button">Play all</button>
+        <button class="btn" id="reset" type="button">Reset</button>
+        <button class="btn" id="slow" type="button" aria-pressed="false">Slow-mo</button>
+        <button class="btn" id="sound" type="button" aria-pressed="false">Sound</button>
+      </div>
+      <div class="row">
+        <button class="btn fx" id="fx-tap" data-fx="tap" type="button"><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Tap frozen</button>
+        <button class="btn fx" id="fx-3" data-fx="3" type="button"><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Deep → Mid</button>
+        <button class="btn fx" id="fx-2" data-fx="2" type="button"><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Mid → Light</button>
+        <button class="btn fx" id="fx-1" data-fx="1" type="button"><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Light → Normal</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const LINE = '#4A3B2E';
+  const ICE = { base: '#C2E0F3', light: '#EDF7FD', rim: 'rgba(74,142,194,.8)', rimSoft: 'rgba(104,168,210,.8)', bloom: 'rgba(160,210,240,.5)', facet: '#A3D0EA', edge: '#6CAED6', core: '#2C5B82', wind: '#86B6D2', windSoft: '#B5D3E3', drop: '#5AA9E6' };
+  const NAMES = ['Normal', 'Light Frost', 'Mid Frost', 'Deep Frost'];
+  const SUBS = ['Melted. Tap it.', '1 pass to go', '2 passes to go', '3 passes to go'];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+  const easeOut = t => 1 - Math.pow(1 - t, 3);
+  const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+  const step4 = (arr, f) => { const i = Math.min(2, Math.max(0, Math.floor(f))); return lerp(arr[i], arr[i + 1], clamp(f - i)); };
+  const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const mix3 = (A, B, t) => A.map((v, i) => lerp(v, B[i], t));
+  const css = c => `rgb(${c.map(Math.round).join(',')})`;
+  const C_LINE = rgb(LINE), C_CORE = rgb(ICE.core), C_LIGHT = rgb(ICE.light);
+  const coreCol = (tint, a) => css(mix3(mix3(C_LINE, C_CORE, tint), C_LIGHT, .24 * a));
+  const rnd = (a = 1, b) => b === undefined ? Math.random() * a : a + Math.random() * (b - a);
+  function rng(seed) { return () => { seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function noise1(R, n) { const v = Array.from({ length: n + 3 }, () => R()); return x => { x = clamp(x, 0, n + 1); const i = Math.floor(x), t = x - i; return lerp(v[i], v[i + 1], t * t * (3 - 2 * t)); }; }
+
+  // How much of the arrow is iced over (cov) and how thick the ice is (thick) at frost level f = 0..3.
+  // Every point on the arrow has a freeze order; ice exists where cov(f) has passed it, so frost
+  // starts at the tip, tail and corners and spreads until the whole arrow is buried.
+  const cov = f => step4([-.24, .34, .7, 1.24], f);
+  const thick = f => step4([0, .046, .105, .17], f);
+  const amt = (o, f) => smooth(o - .16, o + .16, cov(f));
+
+  // --- polyline helpers -------------------------------------------------
+  function segs(p) {
+    const out = []; let acc = 0;
+    for (let i = 0; i < p.length - 1; i++) {
+      const dx = p[i + 1][0] - p[i][0], dy = p[i + 1][1] - p[i][1], l = Math.hypot(dx, dy);
+      if (l < 1e-6) continue;
+      out.push({ i, l, acc, ux: dx / l, uy: dy / l }); acc += l;
+    }
+    out.total = acc; return out;
+  }
+  function at(p, S, s) {
+    s = clamp(s, 0, S.total);
+    let g = S[S.length - 1];
+    for (const k of S) { if (s <= k.acc + k.l) { g = k; break; } }
+    const d = s - g.acc;
+    return { x: p[g.i][0] + g.ux * d, y: p[g.i][1] + g.uy * d, ux: g.ux, uy: g.uy };
+  }
+  function slice(p, S, a, b) {
+    const A = at(p, S, a), B = at(p, S, b), out = [[A.x, A.y]];
+    for (const g of S) { const e = g.acc + g.l; if (e > a + 1e-3 && e < b - 1e-3) out.push(p[g.i + 1]); }
+    out.push([B.x, B.y]); return out;
+  }
+  function strokePath(ctx, P, w, color) {
+    ctx.beginPath(); ctx.moveTo(P[0][0], P[0][1]);
+    for (let i = 1; i < P.length; i++) ctx.lineTo(P[i][0], P[i][1]);
+    ctx.lineWidth = w; ctx.strokeStyle = color; ctx.stroke();
+  }
+  function polyPath(ctx, pts) { ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath(); }
+  function headPoly(e, cell) {
+    const hl = cell * .34, hw = cell * .23;
+    return [[e.x + e.ux * hl * .62, e.y + e.uy * hl * .62], [e.x - e.ux * hl * .38 - e.uy * hw, e.y - e.uy * hl * .38 + e.ux * hw], [e.x - e.ux * hl * .38 + e.uy * hw, e.y - e.uy * hl * .38 - e.ux * hw]];
+  }
+  function star(ctx, x, y, r, alpha) {
+    if (alpha < .03) return;
+    ctx.save(); ctx.globalAlpha = alpha; ctx.fillStyle = '#fff'; ctx.beginPath();
+    ctx.moveTo(x, y - r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.quadraticCurveTo(x, y, x, y + r); ctx.quadraticCurveTo(x, y, x - r, y); ctx.quadraticCurveTo(x, y, x, y - r);
+    ctx.fill(); ctx.restore();
+  }
+  const blob = (R, n0, n1, r0, r1) => { const n = n0 + Math.floor(R() * (n1 - n0 + 1)), poly = []; for (let j = 0; j < n; j++) { const a = (j + R() * .55) / n * Math.PI * 2, rr = r0 + R() * (r1 - r0); poly.push([Math.cos(a) * rr, Math.sin(a) * rr]); } return poly; };
+
+  // --- arrow ------------------------------------------------------------
+  function makeArrow(id, grid, level, seed) {
+    const A = { id, grid, level, f: level, state: 'idle', fly: 0, flyT: 0, windy: false, passed: false, windAcc: 0, dirty: true, cache: null, key: '',
+      shakeT: -1, tugT: -1, tug: [0, 0], flashT: -1, meltT: -1, melt: null, crackT: -1, tapT: -1, tap: null, shineT: -1, pulseT: -1 };
+    const R = rng(seed), S = segs(grid), L = S.total; A.len = L; A.ph = R() * 4;
+    const anchors = [0, L]; for (const g of S) if (g.acc > 0) anchors.push(g.acc);
+    const nO = noise1(R, Math.ceil(L / .7)), nT = noise1(R, Math.ceil(L / .28)), nL = noise1(R, Math.ceil(L / .4)), nR = noise1(R, Math.ceil(L / .09));
+    // Freeze order: tip, tail and corners first. Rank-normalised so cov(f) is the real covered share on every arrow.
+    const raw = s => { let p = 0; for (const a of anchors) { const d = (s - a) / .34; p = Math.max(p, Math.exp(-d * d)); } return nO(s / .7) - .7 * p; };
+    const M = Math.max(8, Math.round(L / .04)), tab = Array.from({ length: M + 1 }, (_, i) => raw(i / M * L)), rank = [];
+    tab.map((v, i) => i).sort((i, j) => tab[i] - tab[j]).forEach((i, r) => { rank[i] = r / M; });
+    A.ord = s => { const x = clamp(s / L) * M, i = Math.min(M - 1, Math.floor(x)); return lerp(rank[i], rank[i + 1], x - i); };
+    A.nt = s => { const t = nT(s / .28); return (.35 + 1.15 * Math.pow(t, 1.5)) * (.8 + .4 * nR(s / .09)); };   // lumpy: thin stretches, fat knots, rough edge
+    A.nl = s => nL(s / .4);
+    A.headLumps = Array.from({ length: 6 }, () => ({ e: Math.floor(R() * 3), u: R(), r: .55 + R() * .55 }));
+    const icy = max => { for (let k = 0; k < 14; k++) { const s = R() * L; if (A.ord(s) < max) return s; } return R() < .5 ? .08 : L - .08; };
+    const side = () => R() < .5 ? -1 : 1;
+
+    const cr = [];
+    const add = (layer, count, r0, r1, max) => { for (let k = 0; k < count; k++) cr.push({ s: icy(max), side: side(), layer, r: lerp(r0, r1, R()), poly: blob(R, 4, 6, .62, 1.12), rot: R() * 6.283, gone: false, goneAt: -1 }); };
+    add(1, Math.max(1, Math.round(L * .4)), .035, .05, .3);
+    add(2, Math.round(L * .8), .06, .09, .6);
+    add(3, Math.round(L * 1.1), .085, .135, 1.1);
+    A.crystals = cr;
+    A.needles = Array.from({ length: Math.round(L * 9) }, () => ({ s: R() * L, side: side(), len: .04 + R() * .1, tilt: (R() - .5) * 1.1, bw: .018 + R() * .02 }));
+    A.clumps = Array.from({ length: Math.round(L * .9) }, () => ({ s: icy(.55), side: side(), rad: .07 + R() * .07, thr: .42 + R() * .6, poly: blob(R, 6, 8, .78, 1.08), rot: R() * 6.283 }));
+    A.icicles = []; A.snow = [];
+    for (const g of S) {
+      if (Math.abs(g.uy) > .01 || g.l < 1) continue;
+      const n = Math.max(1, Math.round(g.l * 2.6)), m = Math.round(g.l * 3);
+      for (let k = 0; k < n; k++) A.icicles.push({ s: g.acc + .25 + (k + .2 + R() * .6) / n * (g.l - .4), len: .12 + R() * .2, w: .035 + R() * .03, skew: (R() - .5) * .07 });
+      for (let k = 0; k < m; k++) A.snow.push({ s: g.acc + .15 + (k + R()) / m * (g.l - .3), r: .04 + R() * .04, thr: .55 + R() * .5 });
+    }
+    const nh = Math.round(L * 2.4);
+    A.speckles = Array.from({ length: Math.round(L * 9) }, () => ({ s: R() * L, off: R() * 2 - 1, r: .014 + R() * .016 }));
+    A.streaks = Array.from({ length: Math.round(L * 3.5) }, () => ({ s: R() * L, ang: side() * (.7 + R() * .5) }));
+    A.highlights = Array.from({ length: nh }, (_, k) => ({ s: (k + R() * .6) / nh * L, len: .1 + R() * .2 }));
+    A.sparkles = Array.from({ length: Math.max(3, Math.round(L * .8)) }, () => ({ s: icy(.7), side: side(), ph: R() * 6.283, sp: .7 + R() * .9 }));
+    A.cracks = Array.from({ length: 4 }, (_, k) => ({ s: (k + .3 + R() * .4) / 4 * L, z: [R() - .5, R() - .5, R() - .5] }));
+    A.veins = Array.from({ length: Math.round(L * 1.2) }, () => ({ s: R() * L, z: [R() - .5, R() - .5, R() - .5] }));
+    return A;
+  }
+  function iceAt(A, s, f) {            // all lengths in cells
+    const a = amt(A.ord(s), f), w = Math.min(.25, a * (thick(f) * A.nt(s) + .012));
+    return { a, w, r: .065 + w, lat: (A.nl(s) * 2 - 1) * w * .65 };
+  }
+  // Ice sits off-centre, and on level stretches it sags below the shaft the way real ice builds up.
+  function iceCentre(q, ic, cell) { return [q.x - q.uy * ic.lat * cell, q.y + q.ux * ic.lat * cell + ic.w * cell * .28 * Math.abs(q.ux)]; }
+  function geom(A, st) { const P = A.grid.map(([x, y]) => [st.ox + x * st.cell, st.oy + y * st.cell]); return { P, S: segs(P) }; }
+  // While a layer melts, the wind strips ice from the upwind end first: each point gets its own frost level.
+  function meltDelay(m, x, y) { return clamp((((x - m.cx) * m.dir[0] + (y - m.cy) * m.dir[1]) / m.cell + 1.5) * .045, 0, .16); }
+  function fLocal(A, x, y) {
+    if (A.meltT < 0) return A.level;
+    const m = A.melt; return lerp(m.from, m.to, easeOut(clamp((T - A.meltT - meltDelay(m, x, y)) / .3)));
+  }
+  function crystalPos(A, c, st, f) {
+    const { P, S } = geom(A, st), q = at(P, S, c.s * st.cell), ic = iceAt(A, c.s, f), [x, y] = iceCentre(q, ic, st.cell), nx = -q.uy * c.side, ny = q.ux * c.side, o = ic.r * .8 * st.cell;
+    return { x: x + nx * o, y: y + ny * o, nx, ny };
+  }
+
+  function drawCrystal(ctx, x, y, R, poly, rot, alpha) {
+    if (R < .4 || alpha <= .01) return;
+    const n = poly.length, ga = ctx.globalAlpha;
+    ctx.save(); ctx.globalAlpha = ga * alpha; ctx.translate(x, y); ctx.rotate(rot); ctx.lineJoin = 'round';
+    const path = () => { ctx.beginPath(); for (let i = 0; i < n; i++) i ? ctx.lineTo(poly[i][0] * R, poly[i][1] * R) : ctx.moveTo(poly[i][0] * R, poly[i][1] * R); ctx.closePath(); };
+    path(); ctx.fillStyle = ICE.light; ctx.fill();
+    ctx.beginPath(); ctx.moveTo(0, 0);
+    for (let i = 0; i <= Math.ceil(n / 2); i++) ctx.lineTo(poly[i % n][0] * R, poly[i % n][1] * R);
+    ctx.closePath(); ctx.fillStyle = ICE.facet; ctx.fill();
+    path(); ctx.lineWidth = Math.max(.7, R * .14); ctx.strokeStyle = ICE.edge; ctx.stroke();
+    const a = poly[n - 1], b = poly[n - 2];
+    ctx.beginPath(); ctx.moveTo(a[0] * R * .6, a[1] * R * .6); ctx.lineTo(b[0] * R * .6, b[1] * R * .6);
+    ctx.lineWidth = Math.max(.7, R * .16); ctx.strokeStyle = '#fff'; ctx.stroke();
+    ctx.restore();
+  }
+
+  const scr = [];
+  function scratch(i, w, h) { const c = scr[i] || (scr[i] = document.createElement('canvas')); if (c.width < w) c.width = w; if (c.height < h) c.height = h; return c; }
+
+  // Renders the frozen arrow (ice body, tinted shaft, glints, shards) into its own cached canvas.
+  function bake(A, st, P, S) {
+    const cell = st.cell, dpr = st.dpr, lw = cell * .13, m = cell * .95;
+    let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    for (const p of P) { x0 = Math.min(x0, p[0]); y0 = Math.min(y0, p[1]); x1 = Math.max(x1, p[0]); y1 = Math.max(y1, p[1]); }
+    x0 -= m; y0 -= m; x1 += m; y1 += m;
+    const cw = Math.ceil((x1 - x0) * dpr), ch = Math.ceil((y1 - y0) * dpr);
+    const c = A.cache || (A.cache = document.createElement('canvas'));
+    if (c.width !== cw || c.height !== ch) { c.width = cw; c.height = ch; }
+    const g = c.getContext('2d'); g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, cw, ch);
+    const b = scratch(0, cw, ch), bg = b.getContext('2d');
+    bg.setTransform(1, 0, 0, 1, 0, 0); bg.globalCompositeOperation = 'source-over'; bg.globalAlpha = 1; bg.clearRect(0, 0, cw, ch);
+    bg.setTransform(dpr, 0, 0, dpr, -x0 * dpr, -y0 * dpr); bg.lineJoin = 'round'; bg.lineCap = 'round';
+
+    const pts = [], N = Math.round(A.len / .04);
+    for (let i = 0; i <= N; i++) {
+      const s = i / N * A.len, q = at(P, S, s * cell), fl = fLocal(A, q.x, q.y), ic = iceAt(A, s, fl), nx = -q.uy, ny = q.ux, [x, y] = iceCentre(q, ic, cell);
+      pts.push({ s, q, fl, a: ic.a, w: ic.w * cell, r: ic.r * cell, lat: ic.lat * cell, x, y, nx, ny });
+    }
+    const near = s => pts[Math.max(0, Math.min(N, Math.round(s / A.len * N)))];
+    const e = at(P, S, S.total), head = headPoly(e, cell), fh = fLocal(A, e.x, e.y), ah = amt(Math.min(A.ord(A.len), .08), fh), wh = ah * (thick(fh) * 1.05 + .012) * cell;
+
+    // 1. ice silhouette
+    bg.fillStyle = ICE.base; bg.strokeStyle = ICE.base;
+    bg.beginPath(); for (const p of pts) if (p.a > .03) { bg.moveTo(p.x + p.r, p.y); bg.arc(p.x, p.y, p.r, 0, 6.283); } bg.fill();
+    if (ah > .03) {
+      polyPath(bg, head); bg.lineWidth = wh * 1.4; bg.stroke(); bg.fill();
+      for (const hlp of A.headLumps) { const a = head[hlp.e], b2 = head[(hlp.e + 1) % 3]; bg.beginPath(); bg.arc(lerp(a[0], b2[0], hlp.u), lerp(a[1], b2[1], hlp.u), wh * hlp.r, 0, 6.283); bg.fill(); }
+    }
+    for (const n of A.needles) {
+      const p = near(n.s); if (p.a < .25) continue;
+      const len = n.len * cell * p.a * (.6 + .4 * clamp(p.fl / 3)), sx = p.nx * n.side, sy = p.ny * n.side, bx = p.x + sx * (p.r - cell * .02), by = p.y + sy * (p.r - cell * .02);
+      const ca = Math.cos(n.tilt), sa = Math.sin(n.tilt), dx = sx * ca - sy * sa, dy = sx * sa + sy * ca, hw = n.bw * cell;
+      bg.beginPath(); bg.moveTo(bx - p.q.ux * hw, by - p.q.uy * hw); bg.lineTo(bx + dx * len, by + dy * len); bg.lineTo(bx + p.q.ux * hw, by + p.q.uy * hw); bg.closePath(); bg.fill();
+    }
+    const icDraw = [];
+    for (const ic of A.icicles) {
+      const p = near(ic.s), k = p.a * clamp((p.fl - .5) / 2.5); if (p.a < .3 || k < .04) continue;
+      const w = ic.w * cell, len = ic.len * cell * k + p.r * .35, x = p.x, y = p.y + p.r * .5, sk = ic.skew * cell;
+      bg.beginPath(); bg.moveTo(x - w, y); bg.quadraticCurveTo(x - w * .35, y + len * .55, x + sk, y + len); bg.quadraticCurveTo(x + w * .45, y + len * .5, x + w, y); bg.closePath(); bg.fill();
+      icDraw.push({ x, y, w, len, sk });
+    }
+    const clDraw = [];
+    for (const cl of A.clumps) {
+      const p = near(cl.s), k = smooth(cl.thr - .1, cl.thr + .15, cov(p.fl)) * p.a; if (k < .06) continue;
+      const R = cl.rad * cell * k, x = p.x + p.nx * cl.side * p.r * .55, y = p.y + p.ny * cl.side * p.r * .55, ca = Math.cos(cl.rot), sa = Math.sin(cl.rot);
+      const poly = cl.poly.map(([a, b2]) => [x + (a * ca - b2 * sa) * R, y + (a * sa + b2 * ca) * R]);
+      polyPath(bg, poly); bg.lineWidth = R * .25; bg.stroke(); bg.fill(); clDraw.push({ x, y, R, poly });
+    }
+    const snDraw = [];
+    for (const sn of A.snow) {
+      const p = near(sn.s), k = smooth(sn.thr, sn.thr + .2, cov(p.fl)); if (p.a < .6 || k < .05) continue;
+      const rr = sn.r * cell * k, x = p.x, y = p.y - p.r + rr * .3;
+      bg.beginPath(); bg.arc(x, y, rr, 0, 6.283); bg.fill(); snDraw.push({ x, y, rr });
+    }
+
+    // 2. shading, clipped to the silhouette: lit from the upper left
+    bg.globalCompositeOperation = 'source-atop'; bg.fillStyle = ICE.light; bg.strokeStyle = ICE.light;
+    bg.beginPath(); for (const p of pts) if (p.a > .03) { const rr = p.r * .66, ox = p.x - p.r * .22, oy = p.y - p.r * .22; bg.moveTo(ox + rr, oy); bg.arc(ox, oy, rr, 0, 6.283); } bg.fill();
+    if (ah > .03) { bg.save(); bg.translate(-wh * .28, -wh * .28); polyPath(bg, head); bg.lineWidth = wh * 1.1; bg.stroke(); bg.restore(); }
+    for (const cl of clDraw) { polyPath(bg, cl.poly.map(([x, y]) => [cl.x + (x - cl.x) * .58 - cl.R * .18, cl.y + (y - cl.y) * .58 - cl.R * .18])); bg.fill(); }
+    bg.fillStyle = '#fff';
+    for (const sn of snDraw) { bg.beginPath(); bg.arc(sn.x, sn.y, sn.rr * .82, 0, 6.283); bg.fill(); }
+    for (const sp of A.speckles) { const p = near(sp.s); if (p.a < .2) continue; bg.globalAlpha = .85 * p.a; bg.beginPath(); bg.arc(p.x + p.nx * sp.off * p.r * .85, p.y + p.ny * sp.off * p.r * .85, sp.r * cell, 0, 6.283); bg.fill(); }
+    for (const v of A.veins) {
+      const p = near(v.s), al = .65 * clamp((p.fl - 1.6) / 1.2) * p.a; if (al < .05) continue;
+      const line = []; for (let i = 0; i <= 4; i++) { const u = -1 + i / 2, z = (i > 0 && i < 4 ? v.z[i - 1] : 0) * cell * .2; line.push([p.x + p.nx * p.r * u + p.q.ux * z, p.y + p.ny * p.r * u + p.q.uy * z]); }
+      bg.globalAlpha = al; strokePath(bg, line, Math.max(.7, cell * .014), '#fff');
+    }
+    bg.globalAlpha = 1; bg.globalCompositeOperation = 'source-over';
+
+    // 3. composite with a cold bloom, a thin rim and a heavier rim on the shadow side
+    g.save();
+    const put = () => g.drawImage(b, 0, 0, cw, ch, 0, 0, cw, ch), d = Math.max(.7, cell * .014) * dpr;
+    g.shadowColor = ICE.bloom; g.shadowBlur = cell * .2 * dpr; put();
+    g.shadowColor = ICE.rimSoft; g.shadowBlur = .6 * dpr;
+    for (const [ox, oy] of [[d, 0], [-d, 0], [0, d], [0, -d]]) { g.shadowOffsetX = ox; g.shadowOffsetY = oy; put(); }
+    g.shadowColor = ICE.rim; g.shadowOffsetX = g.shadowOffsetY = Math.max(1, cell * .018) * dpr; put();
+    g.restore();
+
+    // 4. the arrow itself, tinted where it sits under ice, then frost marks, glints and shards on top
+    g.setTransform(dpr, 0, 0, dpr, -x0 * dpr, -y0 * dpr); g.lineCap = 'round'; g.lineJoin = 'round'; g.globalAlpha = 1;
+    const tintOf = (a, fl) => clamp(a * (.62 + .13 * fl) + .1 * clamp(fl));
+    for (let i = 0; i < N; i++) { const p = pts[i], n = pts[i + 1], a = (p.a + n.a) / 2, fl = (p.fl + n.fl) / 2; strokePath(g, [[p.q.x, p.q.y], [n.q.x, n.q.y]], lw, coreCol(tintOf(a, fl), a)); }
+    const hc = coreCol(tintOf(ah, fh), ah); polyPath(g, head); g.fillStyle = hc; g.fill(); g.lineWidth = lw * .3; g.strokeStyle = hc; g.stroke();
+    for (const sk of A.streaks) {
+      const p = near(sk.s); if (p.a < .45) continue;
+      const ca = Math.cos(sk.ang), sa = Math.sin(sk.ang), dx = (p.q.ux * ca - p.q.uy * sa) * lw * .55, dy = (p.q.ux * sa + p.q.uy * ca) * lw * .55;
+      g.globalAlpha = .55 * p.a; strokePath(g, [[p.q.x - dx, p.q.y - dy], [p.q.x + dx, p.q.y + dy]], Math.max(.8, cell * .016), '#fff');
+    }
+    g.globalAlpha = .9;
+    for (const ic of icDraw) strokePath(g, [[ic.x - ic.w * .35, ic.y + ic.len * .12], [ic.x - ic.w * .1 + ic.sk * .6, ic.y + ic.len * .68]], Math.max(.8, ic.w * .3), '#fff');
+    A.hl = [];
+    for (const h of A.highlights) {
+      const mid = near(h.s + h.len / 2); if (mid.a < .5 || mid.w < cell * .03) continue;
+      const line = [];
+      for (let s = h.s; s <= Math.min(A.len, h.s + h.len) + 1e-6; s += .04) {
+        const p = near(s); let nx = p.nx, ny = p.ny, lat = p.lat; if (nx + ny > 0) { nx = -nx; ny = -ny; lat = -lat; }
+        const o = lw / 2 + Math.max(0, p.w + lat) * .55; line.push([p.q.x + nx * o, p.q.y + ny * o]);
+      }
+      if (line.length < 2) continue;
+      const w = clamp(mid.w * .3, .9, cell * .045); g.globalAlpha = .95; strokePath(g, line, w, '#fff'); A.hl.push({ line, w, s: h.s + h.len / 2 });
+    }
+    g.globalAlpha = 1;
+    for (const cz of A.crystals) {
+      if (cz.gone) continue;
+      const p = near(cz.s), k = (cz.layer === 1 ? clamp(p.fl * 1.4) : clamp((p.fl - (cz.layer - 1)) * 3)) * clamp(p.a * 1.6); if (k < .05) continue;
+      drawCrystal(g, p.x + p.nx * cz.side * p.r * .8, p.y + p.ny * cz.side * p.r * .8, cz.r * cell * k, cz.poly, cz.rot, 1);
+    }
+    A.bx = x0; A.by = y0; A.bw = x1 - x0; A.bh = y1 - y0; A.cw = cw; A.ch = ch; A.near = near;
+  }
+
+  function drawArrow(ctx, A, st) {
+    if (A.state === 'gone') return;
+    const cell = st.cell, lw = cell * .13;
+    let { P, S } = geom(A, st), dx = 0, dy = 0;
+    if (A.shakeT >= 0) { const t = (T - A.shakeT) / .26; if (t < 1) dx += Math.sin(t * Math.PI * 6) * (1 - t) * cell * .075; else A.shakeT = -1; }
+    if (A.tugT >= 0) { const t = (T - A.tugT) / .4; if (t < 1) { const k = Math.sin(t * Math.PI) * (1 - t) * cell * .14; dx += A.tug[0] * k; dy += A.tug[1] * k; } else A.tugT = -1; }
+    ctx.save(); ctx.translate(dx, dy); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+
+    const frozen = A.state === 'idle' && (A.f > .004 || A.meltT >= 0);
+    if (frozen) {
+      const key = cell + '|' + st.dpr;
+      if (A.dirty || A.meltT >= 0 || A.key !== key) { bake(A, st, P, S); A.key = key; A.dirty = false; }
+      ctx.drawImage(A.cache, 0, 0, A.cw, A.ch, A.bx, A.by, A.bw, A.bh);
+      if (!reduce) {
+        const wave = ((T + A.ph) % 4.6) * 2.6 - 1.2;       // a glint that travels along the ice every few seconds
+        for (const h of A.hl) { const k = Math.exp(-Math.pow((h.s - wave) / .5, 2)); if (k < .06) continue; ctx.globalAlpha = k; strokePath(ctx, h.line, h.w * 1.9, '#fff'); const mid = h.line[h.line.length >> 1]; star(ctx, mid[0], mid[1], cell * .14 * k, k > .5 ? k : 0); }
+        ctx.globalAlpha = 1;
+      }
+      for (const sp of A.sparkles) {
+        const p = A.near(sp.s); if (p.a < .5) continue;
+        const a = reduce ? .7 : Math.pow(Math.max(0, Math.sin(T * sp.sp * 2 + sp.ph)), 8);
+        star(ctx, p.x + p.nx * sp.side * p.r * .9, p.y + p.ny * sp.side * p.r * .9, cell * .11 * (.55 + .45 * a), a * clamp(p.a));
+      }
+      if (A.flashT >= 0) {
+        const t = (T - A.flashT) / .24;
+        if (t < 1) {
+          const f = scratch(1, A.cw, A.ch), fg = f.getContext('2d');
+          fg.setTransform(1, 0, 0, 1, 0, 0); fg.globalCompositeOperation = 'source-over'; fg.clearRect(0, 0, A.cw, A.ch); fg.drawImage(A.cache, 0, 0);
+          fg.globalCompositeOperation = 'source-in'; fg.fillStyle = '#fff'; fg.fillRect(0, 0, A.cw, A.ch);
+          ctx.globalAlpha = .6 * (1 - t); ctx.drawImage(f, 0, 0, A.cw, A.ch, A.bx, A.by, A.bw, A.bh); ctx.globalAlpha = 1;
+        } else A.flashT = -1;
+      }
+      if (A.crackT >= 0) {
+        const t = (T - A.crackT) / .34;
+        if (t < 1) {
+          ctx.globalAlpha = 1 - t * t;
+          for (const c of A.cracks) {
+            const p = A.near(c.s), r3 = (.065 + Math.min(.25, thick(3) * A.nt(c.s) + .012)) * cell * Math.min(1, t * 5 + .3), line = [];
+            for (let i = 0; i <= 4; i++) { const u = -1 + i / 2, z = (i > 0 && i < 4 ? c.z[i - 1] : 0) * cell * .22; line.push([p.q.x + p.nx * r3 * u + p.q.ux * z, p.q.y + p.ny * r3 * u + p.q.uy * z]); }
+            strokePath(ctx, line, Math.max(1, cell * .028), ICE.edge);
+          }
+          ctx.globalAlpha = 1;
+        } else A.crackT = -1;
+      }
+      if (A.tapT >= 0) {
+        const t = (T - A.tapT) / .42;
+        if (t < 1) { ctx.globalAlpha = 1 - t * t; for (const r of A.tap.rays) { const l = r.len * Math.min(1, t * 6 + .25); strokePath(ctx, [[A.tap.x, A.tap.y], [A.tap.x + Math.cos(r.a + r.k) * l * .55, A.tap.y + Math.sin(r.a + r.k) * l * .55], [A.tap.x + Math.cos(r.a) * l, A.tap.y + Math.sin(r.a) * l]], Math.max(1, cell * .024), ICE.edge); } ctx.globalAlpha = 1; }
+        else A.tapT = -1;
+      }
+    } else {
+      if (A.state === 'fly') {
+        const g = S[S.length - 1], l = P[P.length - 1], E = P.concat([[l[0] + g.ux * cell * 40, l[1] + g.uy * cell * 40]]), SE = segs(E);
+        P = slice(E, SE, A.fly, A.fly + S.total); S = segs(P);
+      }
+      let pw = 1;
+      if (A.pulseT >= 0) { const t = (T - A.pulseT) / .3; if (t < 1) pw = 1 + .4 * Math.sin(Math.PI * t); else A.pulseT = -1; }
+      strokePath(ctx, P, lw * pw, LINE);
+      polyPath(ctx, headPoly(at(P, S, S.total), cell)); ctx.fillStyle = LINE; ctx.fill(); ctx.lineWidth = lw * .3 * pw; ctx.strokeStyle = LINE; ctx.stroke();
+    }
+    if (A.shineT >= 0 && T >= A.shineT && A.state === 'idle') {
+      const t = (T - A.shineT) / .4;
+      if (t < 1) { const sE = t * (S.total + cell * .7), seg = slice(P, S, Math.max(0, sE - cell * .7), Math.min(S.total, sE)); ctx.globalAlpha = .9 * Math.sin(Math.PI * t); strokePath(ctx, seg, lw * .5, '#fff'); ctx.globalAlpha = 1; } else A.shineT = -1;
+    }
+    ctx.restore();
+  }
+
+  // --- particles --------------------------------------------------------
+  function part(st, o) { st.parts.push(Object.assign({ vx: 0, vy: 0, g: 0, drag: 0, rot: 0, vr: 0, t0: T, life: .5 }, o)); }
+  function curlPts(len, r) {
+    const pts = [];
+    for (let i = 0; i <= 14; i++) pts.push([-len + len * i / 14, 0]);
+    for (let i = 1; i <= 22; i++) { const a = Math.PI / 2 - i / 22 * Math.PI * 1.75; pts.push([Math.cos(a) * r, -r + Math.sin(a) * r]); }
+    return pts;
+  }
+  function stepParts(st, dt) {
+    for (const p of st.parts) {
+      if (T < p.t0) continue;
+      p.vy += p.g * dt; const d = Math.max(0, 1 - p.drag * dt); p.vx *= d; p.vy *= d;
+      p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vr * dt;
+    }
+    st.parts = st.parts.filter(p => T < p.t0 + p.life);
+  }
+  function drawParts(ctx, st) {
+    const cell = st.cell;
+    for (const p of st.parts) {
+      const t = (T - p.t0) / p.life; if (t < 0 || t >= 1) continue;
+      ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      if (p.type === 'chunk') drawCrystal(ctx, p.x, p.y, p.size * (1 - .35 * t), p.poly, p.rot, 1 - t * t);
+      else if (p.type === 'dust') { ctx.globalAlpha = 1 - t; ctx.fillStyle = p.col; ctx.beginPath(); ctx.arc(p.x, p.y, p.size * (1 - .4 * t), 0, 6.283); ctx.fill(); if (p.rim) { ctx.lineWidth = .7; ctx.strokeStyle = ICE.edge; ctx.stroke(); } }
+      else if (p.type === 'mist') {
+        const r = lerp(p.r0, p.r1, easeOut(t)), gr = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r), a = .5 * (1 - t) * Math.min(1, t * 6);
+        gr.addColorStop(0, `rgba(226,242,251,${a})`); gr.addColorStop(.55, `rgba(190,222,242,${a * .55})`); gr.addColorStop(1, 'rgba(190,222,242,0)');
+        ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 6.283); ctx.fill();
+      }
+      else if (p.type === 'drop') {
+        const r = p.size; ctx.globalAlpha = 1 - t * t * t; ctx.fillStyle = ICE.drop; ctx.beginPath();
+        ctx.moveTo(p.x, p.y - r * 1.9); ctx.quadraticCurveTo(p.x + r * 1.2, p.y - r * .2, p.x + r * .95, p.y + r * .25);
+        ctx.arc(p.x, p.y + r * .25, r * .95, 0, Math.PI); ctx.quadraticCurveTo(p.x - r * 1.2, p.y - r * .2, p.x, p.y - r * 1.9); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(p.x - r * .3, p.y + r * .05, r * .26, 0, 6.283); ctx.fill();
+      }
+      else if (p.type === 'streak') { ctx.globalAlpha = Math.sin(Math.PI * t) * .9; strokePath(ctx, [[p.x, p.y], [p.x - p.ux * p.len, p.y - p.uy * p.len]], Math.max(1.2, cell * .036), p.col); }
+      else if (p.type === 'curl') {
+        const n = p.pts.length - 1, u = easeOut(t) * 1.3, a = Math.floor(clamp(u - .6) * n), b = Math.floor(clamp(u) * n);
+        if (b > a) { ctx.globalAlpha = Math.min(1, 2.2 * (1 - t)) * .9; ctx.translate(p.x, p.y); ctx.rotate(p.ang); ctx.scale(1, p.flip); strokePath(ctx, p.pts.slice(a, b + 1), Math.max(1.2, cell * .036), ICE.wind); }
+      }
+      else if (p.type === 'ring') { ctx.globalAlpha = .45 * (1 - t); ctx.beginPath(); ctx.arc(p.x, p.y, cell * (.12 + .4 * easeOut(t)), 0, 6.283); ctx.lineWidth = Math.max(1, cell * .03); ctx.strokeStyle = LINE; ctx.stroke(); }
+      ctx.restore();
+    }
+  }
+
+  // --- sound + haptics --------------------------------------------------
+  let ac = null, soundOn = false;
+  function actx() { if (!soundOn) return null; try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === 'suspended') ac.resume(); return ac; } catch (e) { return null; } }
+  function whoosh() {
+    const a = actx(); if (!a) return;
+    const d = .34, b = a.createBuffer(1, Math.floor(a.sampleRate * d), a.sampleRate), ch = b.getChannelData(0);
+    for (let i = 0; i < ch.length; i++) ch[i] = Math.random() * 2 - 1;
+    const s = a.createBufferSource(), fl = a.createBiquadFilter(), g = a.createGain(), t = a.currentTime;
+    s.buffer = b; fl.type = 'bandpass'; fl.Q.value = 1.2; fl.frequency.setValueAtTime(500, t); fl.frequency.exponentialRampToValueAtTime(2600, t + d);
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.22, t + .06); g.gain.exponentialRampToValueAtTime(.0001, t + d);
+    s.connect(fl); fl.connect(g); g.connect(a.destination); s.start();
+  }
+  function tink(n, base) {
+    const a = actx(); if (!a) return;
+    for (let i = 0; i < n; i++) {
+      const t = a.currentTime + .05 + i * .035 + Math.random() * .02, o = a.createOscillator(), g = a.createGain();
+      o.type = 'triangle'; o.frequency.value = base + Math.random() * 2200; g.gain.setValueAtTime(.08, t); g.gain.exponentialRampToValueAtTime(.0001, t + .09);
+      o.connect(g); g.connect(a.destination); o.start(t); o.stop(t + .1);
+    }
+  }
+  function knock() {
+    const a = actx(); if (!a) return;
+    const t = a.currentTime, o = a.createOscillator(), g = a.createGain();
+    o.type = 'sine'; o.frequency.setValueAtTime(240, t); o.frequency.exponentialRampToValueAtTime(110, t + .09);
+    g.gain.setValueAtTime(.25, t); g.gain.exponentialRampToValueAtTime(.0001, t + .12);
+    o.connect(g); g.connect(a.destination); o.start(t); o.stop(t + .13);
+  }
+  function buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
+
+  // --- stages -----------------------------------------------------------
+  let T = 0, scale = 1, queue = [];
+  function stage(canvas, layout) { return { canvas, ctx: canvas.getContext('2d'), layout, arrows: [], parts: [], w: 0, h: 0, cell: 1, ox: 0, oy: 0, dpr: 1 }; }
+  function fit(st) {
+    const r = st.canvas.getBoundingClientRect(); if (r.width < 2) return;
+    st.dpr = Math.min(window.devicePixelRatio || 1, 3); st.w = r.width; st.h = r.height;
+    st.canvas.width = Math.round(r.width * st.dpr); st.canvas.height = Math.round(r.height * st.dpr); st.layout(st);
+  }
+  function render(st, dots) {
+    const ctx = st.ctx; ctx.setTransform(st.dpr, 0, 0, st.dpr, 0, 0); ctx.clearRect(0, 0, st.w, st.h);
+    if (dots) { ctx.fillStyle = 'rgba(74,59,46,.13)'; for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) { ctx.beginPath(); ctx.arc(st.ox + x * st.cell, st.oy + y * st.cell, st.cell * .035, 0, 6.283); ctx.fill(); } }
+    for (const A of st.arrows) if (A.f <= 0 && A.meltT < 0) drawArrow(ctx, A, st);
+    for (const A of st.arrows) if (A.f > 0 || A.meltT >= 0) drawArrow(ctx, A, st);
+    drawParts(ctx, st);
+  }
+
+  const TILE = [[0, 2], [0, 1], [2, 1], [2, 0]];
+  const tiles = [0, 1, 2, 3].map(i => {
+    const st = stage(document.getElementById('tile-' + i), s => { s.cell = s.w / 3.7; s.ox = (s.w - 2 * s.cell) / 2; s.oy = (s.h - 2 * s.cell) / 2 + s.cell * .1; });
+    st.arrows = [makeArrow('t' + i, TILE, i, 77)]; return st;
+  });
+
+  const board = stage(document.getElementById('board'), s => { s.cell = s.w / 9; s.ox = s.oy = s.cell; });
+  const F_GRID = [[3, 6], [3, 3], [5, 3]];
+  const N_GRIDS = [[[0, 6], [2, 6], [2, 4]], [[7, 1], [7, 2], [5, 2]], [[6, 4], [4, 4], [4, 6]]];
+  let F = null;
+  const elName = document.getElementById('st-name'), elSub = document.getElementById('st-sub'), pips = [...document.querySelectorAll('.pip')];
+  function status() {
+    const gone = F.state !== 'idle';
+    elName.textContent = gone ? 'Cleared' : NAMES[F.level];
+    elSub.textContent = gone ? 'Board is empty' : SUBS[F.level];
+    pips.forEach((p, i) => p.classList.toggle('on', !gone && i < F.level));
+  }
+  function reset(level) {
+    queue = []; board.parts = [];
+    F = makeArrow('F', F_GRID, level, 2026);
+    board.arrows = N_GRIDS.slice(3 - level).map((g, i) => makeArrow('N' + i, g, 0, 5 + i)).concat([F]);
+    status();
+  }
+  const dirOf = A => { const S = segs(A.grid), g = S[S.length - 1]; return [g.ux, g.uy]; };
+  const midOf = A => { const { P, S } = geom(A, board); const q = at(P, S, S.total / 2); return [q.x, q.y]; };
+  function nearestOn(A, x, y) { const { P, S } = geom(A, board); let b = null, bd = 1e9; for (let i = 0; i <= 40; i++) { const q = at(P, S, S.total * i / 40), d = Math.hypot(q.x - x, q.y - y); if (d < bd) { bd = d; b = q; } } return b; }
+
+  function tapFrozen(A, x, y) {
+    const cell = board.cell, q = nearestOn(A, x, y);
+    A.shakeT = T; A.flashT = T; A.tapT = T;
+    A.tap = { x: q.x, y: q.y, rays: Array.from({ length: 5 }, (_, i) => ({ a: i / 5 * 6.283 + rnd(.8), k: rnd(-.5, .5), len: cell * rnd(.14, .3) })) };
+    part(board, { type: 'ring', x, y, life: .35 });
+    part(board, { type: 'mist', x: q.x, y: q.y, vy: -cell * .6, r0: cell * .1, r1: cell * .42, life: .5 });
+    for (let i = 0; i < 7; i++) { const a = rnd(6.283), v = cell * rnd(1.5, 4); part(board, { type: 'dust', x: q.x, y: q.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - cell, g: cell * 12, drag: 2, life: rnd(.3, .5), size: cell * rnd(.02, .04), col: i % 2 ? '#fff' : ICE.facet, rim: true }); }
+    knock(); tink(2, 3200); buzz(12);
+  }
+  function launch(A, x, y) {
+    if (A.state !== 'idle') return;
+    if (x !== undefined) part(board, { type: 'ring', x, y, life: .35 });
+    A.state = 'fly'; A.flyT = T; A.fly = 0; A.passed = false; A.windy = A !== F && F.state === 'idle' && F.level > 0;
+    whoosh(); buzz(6);
+    if (A === F) status();
+  }
+  function melt(dir, hx, hy) {
+    const from = F.level, cell = board.cell; if (from <= 0) return;
+    const c = nearestOn(F, hx, hy), { P, S } = geom(F, board), m = { from: F.f, to: from - 1, dir, cx: c.x, cy: c.y, cell };
+    F.level = from - 1; F.melt = m; F.meltT = T; F.tug = dir; F.tugT = T;
+    const px = -dir[1], py = dir[0], ang = Math.atan2(dir[1], dir[0]);
+    for (let i = 0; i < 3; i++) {
+      const along = cell * (-.2 + i * .9), lat = cell * rnd(-.5, .5);
+      part(board, { type: 'curl', x: c.x + dir[0] * along + px * lat, y: c.y + dir[1] * along + py * lat, vx: dir[0] * cell * 2.5, vy: dir[1] * cell * 2.5, ang, flip: i % 2 ? 1 : -1, pts: curlPts(cell * rnd(.9, 1.5), cell * rnd(.15, .23)), t0: T + i * .06, life: .5 });
+    }
+    // debris comes off exactly where ice is lost, a moment after the wind reaches that spot
+    for (let s = 0; s <= F.len; s += .13) {
+      const hi = iceAt(F, s, from), lo = iceAt(F, s, from - 1), loss = hi.w - lo.w; if (loss < .018) continue;
+      const q = at(P, S, s * cell), nx = -q.uy, ny = q.ux, [ix, iy] = iceCentre(q, hi, cell), t0 = T + meltDelay(m, q.x, q.y) + rnd(.02, .1);
+      for (let k = 0; k < 2; k++) {
+        const sd = k ? 1 : -1, o = sd * hi.r * rnd(.5, 1) * cell, x = ix + nx * o, y = iy + ny * o;
+        const vx = dir[0] * cell * rnd(4, 10) + nx * sd * cell * rnd(.5, 2.5), vy = dir[1] * cell * rnd(4, 10) + ny * sd * cell * rnd(.5, 2.5) - cell * rnd(0, 1.5);
+        if (from >= 2 && Math.random() < (from === 3 ? .5 : .25)) part(board, { type: 'chunk', x, y, vx, vy, g: cell * 16, drag: 1.2, rot: rnd(6), vr: rnd(-9, 9), t0, life: rnd(.55, .85), size: cell * rnd(.05, .09) * (from === 3 ? 1.35 : 1), poly: blob(Math.random, 4, 6, .62, 1.12) });
+        else part(board, { type: 'dust', x, y, vx: vx * .8, vy: vy * .8, g: cell * 6, drag: 2.2, t0, life: rnd(.4, .75), size: cell * rnd(.018, .042), col: Math.random() < .6 ? '#fff' : ICE.facet, rim: true });
+      }
+      if (Math.random() < .22) part(board, { type: 'mist', x: q.x, y: q.y, vx: dir[0] * cell * rnd(1.5, 3.5), vy: dir[1] * cell * rnd(1.5, 3.5), drag: 1.5, r0: cell * .12, r1: cell * rnd(.4, .62), t0, life: rnd(.5, .75) });
+      if (Math.random() < (from === 1 ? .55 : .12)) part(board, { type: 'drop', x: q.x + rnd(-.06, .06) * cell, y: q.y + cell * .1, vx: dir[0] * cell * rnd(.3, 1.2), vy: cell * rnd(.2, 1), g: cell * 17, t0: t0 + rnd(.05, .2), life: rnd(.45, .65), size: cell * rnd(.04, .062) });
+    }
+    for (const cz of F.crystals) if (cz.layer === from && !cz.gone) { const p = crystalPos(F, cz, board, from); cz.goneAt = T + meltDelay(m, p.x, p.y) + rnd(.01, .06); }
+    if (from === 3) F.crackT = T;
+    if (from === 1) F.shineT = T + .14;
+    tink(from === 3 ? 7 : from === 2 ? 5 : 3, from === 3 ? 1800 : 2600); buzz(from === 3 ? 22 : 14);
+    status();
+  }
+
+  function update(dt) {
+    for (const q of queue.slice()) if (T >= q.at) { queue.splice(queue.indexOf(q), 1); q.fn(); }
+    const cell = board.cell;
+    for (const A of board.arrows) {
+      if (A.state === 'fly') {
+        const t = T - A.flyT, d = dirOf(A), l = A.grid[A.grid.length - 1];
+        A.fly = cell * (9 * t + 80 * t * t);
+        const hx = board.ox + l[0] * cell + d[0] * A.fly, hy = board.oy + l[1] * cell + d[1] * A.fly;
+        if (A.windy) {
+          A.windAcc += dt;
+          while (A.windAcc > .013) {
+            A.windAcc -= .013;
+            const back = rnd(1.8) * cell, lat = rnd(-.62, .62) * cell, x = hx - d[0] * back - d[1] * lat, y = hy - d[1] * back + d[0] * lat;
+            if (x > -cell && x < board.w + cell && y > -cell && y < board.h + cell) { const sp = cell * rnd(4, 11); part(board, { type: 'streak', x, y, vx: d[0] * sp, vy: d[1] * sp, drag: 2.5, ux: d[0], uy: d[1], len: cell * rnd(.4, 1.4), life: rnd(.24, .42), col: Math.random() < .55 ? ICE.wind : ICE.windSoft }); }
+          }
+          if (!A.passed && A.fly > cell) { A.passed = true; melt(d, hx, hy); }
+        }
+        if (A.fly > (A.len + 9) * cell) {
+          A.state = 'gone';
+          if (A === F) queue.push({ at: T + 1.3, fn: () => reset(3) });
+        }
+      }
+      if (A.meltT >= 0) {
+        const t = (T - A.meltT) / .46; A.f = lerp(A.melt.from, A.melt.to, easeOut(clamp(t)));
+        if (t >= 1) { A.meltT = -1; A.f = A.level; A.dirty = true; if (A.level === 0) A.pulseT = T; }
+      }
+      for (const c of A.crystals) {
+        if (c.gone || c.goneAt < 0 || T < c.goneAt) continue;
+        c.gone = true; A.dirty = true; const p = crystalPos(A, c, board, c.layer);
+        part(board, { type: 'chunk', x: p.x, y: p.y, vx: A.tug[0] * cell * rnd(5, 11) + p.nx * cell * rnd(1, 3), vy: A.tug[1] * cell * rnd(5, 11) + p.ny * cell * rnd(1, 3) - cell * 1.5, g: cell * 16, drag: 1.2, rot: c.rot, vr: rnd(-9, 9), life: rnd(.55, .85), size: c.r * cell, poly: c.poly });
+      }
+    }
+    stepParts(board, dt);
+  }
+
+  // --- input ------------------------------------------------------------
+  function hit(x, y) {
+    let best = null, bd = board.cell * .5;
+    for (const A of board.arrows) {
+      if (A.state !== 'idle') continue;
+      const { P, S } = geom(A, board);
+      for (let s = 0; s <= S.total; s += board.cell * .2) { const q = at(P, S, s), d = Math.hypot(q.x - x, q.y - y); if (d < bd) { bd = d; best = A; } }
+    }
+    return best;
+  }
+  board.canvas.addEventListener('pointerdown', ev => {
+    const r = board.canvas.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top, A = hit(x, y);
+    if (!A) return;
+    queue = [];
+    if (A === F && F.level > 0) tapFrozen(F, x, y); else launch(A, x, y);
+  });
+  const later = (dt, fn) => queue.push({ at: T + dt, fn });
+  function tapAuto(A) { const [x, y] = midOf(A); if (A === F && F.level > 0) tapFrozen(F, x, y); else launch(A, x, y); }
+  document.getElementById('reset').addEventListener('click', () => reset(3));
+  document.getElementById('auto').addEventListener('click', () => {
+    reset(3); const [n1, n2, n3] = board.arrows;
+    later(.5, () => tapAuto(F)); later(1.3, () => tapAuto(n1)); later(2.3, () => tapAuto(n2)); later(3.3, () => tapAuto(n3)); later(4.4, () => tapAuto(F));
+  });
+  document.querySelectorAll('.fx').forEach(b => b.addEventListener('click', () => {
+    const fx = b.dataset.fx;
+    if (fx === 'tap') { reset(3); later(.4, () => tapAuto(F)); }
+    else { reset(+fx); const n = board.arrows[0]; later(.4, () => tapAuto(n)); }
+  }));
+  const toggle = (id, fn) => { const b = document.getElementById(id); b.addEventListener('click', () => { const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on); fn(on); }); };
+  toggle('slow', on => { scale = on ? .25 : 1; });
+  toggle('sound', on => { soundOn = on; if (on) { actx(); tink(2, 3000); } });
+
+  // --- loop -------------------------------------------------------------
+  const all = tiles.concat([board]);
+  function drawAll() { tiles.forEach(st => render(st, false)); render(board, true); }
+  function fitAll() { all.forEach(fit); drawAll(); }
+  reset(3); fitAll();
+  if (window.ResizeObserver) new ResizeObserver(fitAll).observe(document.querySelector('.wrap')); else addEventListener('resize', fitAll);
+  let last = performance.now();
+  function frame(now) { const dt = Math.min(.05, (now - last) / 1000) * scale; last = now; T += dt; update(dt); drawAll(); requestAnimationFrame(frame); }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
