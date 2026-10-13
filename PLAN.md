@@ -1,6 +1,6 @@
 # Kapibara Nerede? – Oyun Planı (v0.1)
 
-Find the Cat 2 tarzında bir hidden object oyunu. Saklanan hayvan kedi değil kapibara. Çizimler basit tutulacak: siyah çizgi + düz renk. Arka plan araştırması için bkz. [`research/README.md`](research/README.md).
+Find the Cat 2 tarzında bir hidden object oyunu. Saklanan hayvan kedi değil kapibara. Çizimler basit tutulacak: siyah çizgi + düz renk. Arka plan araştırması için bkz. [`research/README.md`](research/README.md); pazar araştırması ve strateji için bkz. [`research/MARKET.md`](research/MARKET.md).
 
 Çalışma adı: **Kapibara Nerede?** (İngilizce: *Where's the Capy?*). "Find The Capybara" adı App Store'da kullanılıyor, o yüzden farklı bir isim seçmeliyiz.
 
