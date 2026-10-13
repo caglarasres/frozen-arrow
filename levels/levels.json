@@ -52,10 +52,50 @@
         1536,
         2048
       ],
-      "line": "art/world-1/level-01/line.webp",
-      "color": "art/world-1/level-01/color.webp",
-      "ducks": [],
-      "golden": null
+      "line": "art/world-1/level-01/line.svg",
+      "color": "art/world-1/level-01/color.svg",
+      "ducks": [
+        {
+          "id": 1,
+          "x": 640,
+          "y": 1120,
+          "r": 92,
+          "pose": "side"
+        },
+        {
+          "id": 2,
+          "x": 1185,
+          "y": 592,
+          "r": 56,
+          "pose": "side"
+        },
+        {
+          "id": 3,
+          "x": 640,
+          "y": 1745,
+          "r": 76,
+          "pose": "side"
+        },
+        {
+          "id": 4,
+          "x": 1030,
+          "y": 1101,
+          "r": 47,
+          "pose": "head"
+        },
+        {
+          "id": 5,
+          "x": 470,
+          "y": 512,
+          "r": 60,
+          "pose": "side"
+        }
+      ],
+      "golden": {
+        "x": 1247,
+        "y": 1597,
+        "r": 34
+      }
     },
     {
       "id": "w1-l02",

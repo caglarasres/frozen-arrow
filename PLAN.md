@@ -293,7 +293,7 @@ Hesaplar: Apple Developer Program (yıllık $99) ve Google Play Console (tek sef
 
 ## 13. Hemen sonraki adımlar
 1. [ ] Ördek poz kütüphanesini çiz (`art/characters/`, 12 SVG).
-2. [ ] Seviye 1 "Köpüklü Küvet" sahnesini dikey olarak çiz (line + color).
-3. [ ] Vite + PixiJS + Capacitor projesini kur; telefonda pinch-zoom + dokunarak bulma prototipini yap.
+2. [x] Seviye 1 "Köpüklü Küvet" sahnesini dikey olarak çiz (line + color). Şimdilik `tools/build-level1.mjs` ile kodla üretiliyor.
+3. [x] Vite + PixiJS + Capacitor projesini kur; telefonda pinch-zoom + dokunarak bulma prototipini yap (bkz. `README.md`).
 4. [ ] Geliştirici editörünü yap ve Seviye 1'in ördeklerini yerleştir.
 5. [ ] Apple Developer ve Google Play Console hesaplarını aç.
