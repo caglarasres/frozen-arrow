@@ -124,3 +124,17 @@ Agave'nin asıl tutundurma aracı günlük zor bulmaca. Bunu en baştan tasarım
 
 ## 7. Başka bir oyun olsa?
 Veriler hidden object nişinin küçük bir ekip için **iyi bir seçim** olduğunu gösteriyor: düşük maliyet, kanıtlanmış talep, basit çizimle yapılabilir. Hybrid-casual ve merge gibi daha büyük türler reklam bütçesi ve büyük ekip istiyor ([Udonis](https://www.blog.udonis.co/mobile-marketing/mobile-games/casual-games), [AppMagic](https://appmagic.rocks/research/casual-report-2025)). Bu yüzden türü değiştirmek yerine **türü farklılaştırmayı** öneriyoruz (UGC, paylaşım, reklamsız). Kapibara teması kalabilir. İstenirse aynı motorla ileride başka hayvanlar ve temalar da eklenebilir ("Ördek Nerede?", "Kirpi Nerede?"), tıpkı "I commissioned some…" serisinin yaptığı gibi.
+
+---
+
+## 8. Hayvan seçimi (güncelleme): Lastik ördek 🦆
+
+| Hayvan | Durum |
+|---|---|
+| Kedi | Agave'nin Find The Cat 1 ve 2'si pazara hakim ❌ |
+| Köpek | Çok klon var: [Find The Puppy](https://apps.apple.com/app/id6738839375) (yaklaşık 7.100 değerlendirme), [Find The Dogs](https://apps.apple.com/app/id6737040925), [Find the Dog](https://apps.apple.com/app/id6746809249), [Where's Fido?](https://apps.apple.com/us/app/id1673594434) ❌ |
+| Kapibara | Rakiplerin hiçbiri büyük değil ama moda geçebilir 🟡 |
+| **Lastik ördek** | İkonik siluet, "obje gibi" saklanabilir (Find The Cat 2'deki süs gibi saklama trendine uyuyor), her yaşa uygun, kültürel riski yok ✅ |
+| Domuz | Türkiye ve Orta Doğu pazarında sorun ❌ |
+
+**Ördek rakipleri:** [Ducks in Disguise](https://ladiesgamers.com/ducks-in-disguise-review/) (Steam/Switch 2026; siyah-beyaz sahneler, 24 seviye, $1.99) bize en yakın rakip. Ayrıca [Find The Ducks](https://apps.apple.com/app/id6745335890) (mobil klon), [Find 100 Ducks and Blast Them](https://www.dekudeals.com/items/find-100-ducks-and-blast-them) (3D) ve [Quck My Duck](https://clirgo.itch.io/quck-my-duck) var. Yani tema boş değil. **Ayrışma, temadan değil özelliklerden gelmeli:** reklamsız oyun, Sakla & Gönder, Günlük Ördek + sonuç kartı, önce web. Ayrıntılar `PLAN.md` § 2'de.
