@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "worlds": [
+    { "id": 1, "name": "Nehir Kenarı", "palette": ["#7FB77E", "#B5D99C", "#8EC3E6", "#E8D9A8", "#A0703C", "#C89A63"] },
+    { "id": 2, "name": "Kaplıca Kasabası", "palette": [] },
+    { "id": 3, "name": "Büyük Şehir", "palette": [] },
+    { "id": 4, "name": "Pazar & Mutfak", "palette": [] },
+    { "id": 5, "name": "Gece Festivali", "palette": [] }
+  ],
+  "levels": [
+    {
+      "id": "w1-l01",
+      "world": 1,
+      "name": "Sığ Nehir",
+      "tutorial": true,
+      "targetCount": 5,
+      "size": [2048, 1536],
+      "line": "art/world-1/level-01/line.webp",
+      "color": "art/world-1/level-01/color.webp",
+      "capybaras": [],
+      "golden": null
+    },
+    { "id": "w1-l02", "world": 1, "name": "Saz Kamışları", "targetCount": 6, "size": [2048, 1536], "line": "art/world-1/level-02/line.webp", "color": "art/world-1/level-02/color.webp", "capybaras": [], "golden": null },
+    { "id": "w1-l03", "world": 1, "name": "Kütüklü Kumsal", "targetCount": 8, "size": [2048, 1536], "line": "art/world-1/level-03/line.webp", "color": "art/world-1/level-03/color.webp", "capybaras": [], "golden": null },
+    { "id": "w1-l04", "world": 1, "name": "Ördekli Gölet", "targetCount": 9, "size": [2048, 1536], "line": "art/world-1/level-04/line.webp", "color": "art/world-1/level-04/color.webp", "capybaras": [], "golden": null },
+    { "id": "w1-l05", "world": 1, "name": "Orman Pikniği", "targetCount": 10, "size": [2048, 1536], "line": "art/world-1/level-05/line.webp", "color": "art/world-1/level-05/color.webp", "capybaras": [], "golden": null },
+    { "id": "w1-l06", "world": 1, "name": "Nehir Panoraması", "boss": true, "targetCount": 12, "size": [4096, 1536], "line": "art/world-1/level-06/line.webp", "color": "art/world-1/level-06/color.webp", "capybaras": [], "golden": null }
+  ]
+}
