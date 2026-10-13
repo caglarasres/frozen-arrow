@@ -1,11 +1,11 @@
-# Vak! – Ördek Nerede? · Oyun Planı (v0.2)
+# Vak! – Ördek Nerede? · Oyun Planı (v0.3, mobil)
 
-Find the Cat 2 tarzında bir hidden object oyunu. Saklanan hayvan **lastik ördek** 🦆. Çizimler basit tutulacak: siyah çizgi + düz renk. Pazar araştırmasından çıkan ayrışma noktaları (reklamsız oyun, "Sakla & Gönder", günlük bulmaca, önce web) oyunun temeline konuldu.
+Find the Cat 2 tarzında, **mobil (iOS + Android)** bir hidden object oyunu. Saklanan hayvan **lastik ördek** 🦆. Çizimler basit tutulacak: siyah çizgi + düz renk. Pazar araştırmasından çıkan ayrışma noktaları (reklamsız oyun, "Sakla & Gönder", günlük bulmaca, link ile viral büyüme) oyunun temeline konuldu.
 
 - Arka plan araştırması: [`research/README.md`](research/README.md)
 - Pazar araştırması ve strateji: [`research/MARKET.md`](research/MARKET.md)
 
-Çalışma adı: **Vak! – Ördek Nerede?** (İngilizce: *Quack! Where's the Duck?*). "Find The Ducks" (mobil) ve "Ducks in Disguise" (Steam) adları kullanılıyor. M4'ten önce mağazada isim kontrolü yapılacak.
+Çalışma adı: **Vak! – Ördek Nerede?** (İngilizce: *Quack! Where's the Duck?*). "Find The Ducks" (mobil) ve "Ducks in Disguise" (Steam/Switch) adları kullanılıyor. Mağazaya göndermeden önce isim ve ASO kontrolü yapılacak.
 
 ---
 
@@ -20,13 +20,12 @@ Find the Cat 2 tarzında bir hidden object oyunu. Saklanan hayvan **lastik örde
 ### Ördek rakipleri (dürüst durum)
 | Oyun | Platform | Ne yapıyor |
 |---|---|---|
-| [Ducks in Disguise](https://ladiesgamers.com/ducks-in-disguise-review/) (Dinomore Games, 2026) | Steam, [Switch](https://www.nintendo.com/games/detail/ducks-in-disguise-switch) | Siyah-beyaz sahnelerde lastik ördek arama, 24 seviye, süre yok, $1.99. **Bize en yakın rakip.** |
-| [Find The Ducks](https://apps.apple.com/app/id6745335890) | iOS/Android | Ücretsiz + IAP, Find the Cat klonu |
+| [Find The Ducks](https://apps.apple.com/app/id6745335890) | iOS/Android | Ücretsiz + IAP, Find the Cat klonu. **Mobilde doğrudan rakip.** |
+| [Ducks in Disguise](https://ladiesgamers.com/ducks-in-disguise-review/) (Dinomore Games, 2026) | Steam, [Switch](https://www.nintendo.com/games/detail/ducks-in-disguise-switch) | Siyah-beyaz sahnelerde lastik ördek arama, 24 seviye, $1.99. Mobilde yok. |
 | [Find 100 Ducks and Blast Them](https://www.dekudeals.com/items/find-100-ducks-and-blast-them) | Steam (F2P) | 3D, ördekleri vurma |
-| [Quck My Duck](https://clirgo.itch.io/quck-my-duck) | itch.io / Steam (geliştirme aşamasında) | – |
-| "Hide a rubber duck" parti oyunu | Steam (2026'da çıkacak) | 8 kişilik çok oyunculu saklambaç |
+| Kedi/köpek klonları (Find The Cat 1–2, Find The Puppy, Find The Dogs…) | Mobil | Aynı oyuncu kitlesi için yarışıyorlar |
 
-**Sonuç:** Sadece "ördekli Find the Cat" yaparsak Ducks in Disguise ve klonlardan ayrışamayız. Farkımız aşağıdaki 5 özellik olmalı.
+**Sonuç:** Mobilde sadece "ördekli Find the Cat" yaparsak Find The Ducks ve büyük bütçeli kedi oyunlarıyla reklam (UA) yarışına gireriz ve kaybederiz. Farkımız aşağıdaki özellikler ve **organik büyüme** olmalı.
 
 ---
 
@@ -34,24 +33,25 @@ Find the Cat 2 tarzında bir hidden object oyunu. Saklanan hayvan **lastik örde
 
 | # | Özellik | Hangi açığı kapatıyor | Rakiplerde var mı? |
 |---|---|---|---|
-| 1 | **🚫 Zorunlu reklam yok** | Türün 1 numaralı şikayeti reklam ve çalışmayan "reklamı kaldır" satın alımı | Mobil rakiplerin çoğunda yok |
-| 2 | **🔗 Sakla & Gönder (UGC)** | Viral döngü, reklam bütçesine gerek kalmaz. Gerçek zamanlı ya da sosyal bir hidden object mobil oyunu bulamadık | Yok |
+| 1 | **🚫 Zorunlu reklam yok** | Türün 1 numaralı şikayeti: 30 saniyede bir reklam, çalışmayan "reklamı kaldır" satın alımı. Mağaza yorumlarında ve puanda doğrudan avantaj | Mobil rakiplerin çoğunda yok |
+| 2 | **🔗 Sakla & Gönder (UGC)** | Viral döngü, reklam bütçesinin yerini tutar. Sosyal bir hidden object mobil oyunu bulamadık | Yok |
 | 3 | **📅 Günlük ördek bulmacası + Wordle tarzı sonuç kartı** | Agave'nin asıl tutundurma motoru günlük bulmaca; biz buna paylaşım ekliyoruz | Kısmen var (Find The Cat'te paylaşım yok) |
-| 4 | **🌐 Önce web, link ile anında oynanır** | Kurulum yok, link paylaşımına ideal; CrazyGames/Poki'de dağıtım | Ducks in Disguise sadece Steam/Switch'te |
+| 4 | **📲 Link ile anında oynama** | Uygulaması olmayan arkadaş, linki açınca hafif bir web oynatıcıda hemen oynar, sonra mağazaya yönlendirilir. Kurulum engeli kalkar | Yok |
 | 5 | **🎨 Renklenme ödülü + Ördek Albümü** | Tekrar eden sahne hissini kırar, koleksiyon motivasyonu verir | Kısmen var |
+| 6 | **🎥 TikTok/Reels'e hazır içerik** | Her seviye ve her Sakla & Gönder bulmacası tek tuşla "Kaç ördek bulabildin?" videosu olarak dışa aktarılır. Ücretsiz pazarlama sağlar | Yok |
 
-Bonus: **Mini çok oyunculu "Ördek Yarışı"** (v1.2+). Aynı link, aynı sahne; kimin daha hızlı bulduğu asenkron olarak karşılaştırılır. Sunucu gerektirmez.
+Bonus: **"Ördek Yarışı"** (v1.2+). Aynı link, aynı sahne, 2–8 kişi; kimin daha hızlı bulduğu asenkron olarak karşılaştırılır.
 
 ---
 
 ## 3. Oyunun özü
 
-> Sakin ve paylaşılabilir bir arama oyunu. Siyah-beyaz bir sahnede ördekleri bul; her bulduğun ördek sarıya boyanır, hepsini bulunca bütün sahne renklenir. Sonra kendi ördeklerini sakla ve arkadaşına gönder: "Bunu bulamazsın!"
+> Sakin ve paylaşılabilir bir telefon oyunu. Siyah-beyaz bir sahnede ördekleri bul; her bulduğun ördek sarıya boyanır, hepsini bulunca bütün sahne renklenir. Sonra kendi ördeklerini sakla ve arkadaşına WhatsApp'tan gönder: "Bunu bulamazsın!"
 
 ### Temel döngü (Seviye modu)
 1. Seviye açılır: siyah-beyaz çizgi sahne ve "0 / N 🦆" sayacı.
-2. Oyuncu sahneyi kaydırır ve yakınlaştırır (pinch, tekerlek, çift dokunma).
-3. Ördeğe dokununca: ördek sarıya boyanır, "vak!" sesi çalar, küçük kabarcıklar çıkar, sayaç artar.
+2. Oyuncu iki parmakla yakınlaştırır, tek parmakla kaydırır, çift dokunarak zoom yapar.
+3. Ördeğe dokununca: ördek sarıya boyanır, "vak!" sesi çalar, **hafif titreşim** (haptic) olur, kabarcıklar çıkar, sayaç artar.
 4. Yanlış dokunuşa ceza yok. Sadece ufak bir dalga efekti gösterilir.
 5. Hepsi bulununca sahne renkli versiyona geçer, yıldızlar verilir ve sonraki seviye açılır.
 
@@ -63,16 +63,16 @@ Bonus: **Mini çok oyunculu "Ördek Yarışı"** (v1.2+). Aynı link, aynı sahn
 ### İpucu
 - Ördeğin olduğu bölgede 3 saniye boyunca yanıp sönen bir daire gösterilir. Kesin noktayı değil, bölgeyi gösterir.
 - Başta 3 ipucu verilir. Her biten seviye +1, her günlük bulmaca +1 ipucu kazandırır.
-- Web'de isteğe bağlı ödüllü reklam (+2 ipucu). **Oyunun ortasında asla reklam çıkmaz.**
+- İsteğe bağlı ödüllü reklam: +2 ipucu. **Oyunun ortasında asla reklam çıkmaz.**
 
 ### Modlar
 | Mod | Açıklama | Sürüm |
 |---|---|---|
 | **Seviyeler** | El yapımı 30 seviye, 5 dünya | v1.0 |
-| **Günlük Ördek** | Her gün herkese aynı sahne: 15 ördek, isteğe bağlı süre. Sonuç kartı: `🦆 Vak! #142 · 15/15 · 2:41 · 💡0` | v1.0 |
+| **Günlük Ördek** | Her gün herkese aynı sahne: 15 ördek, isteğe bağlı süre. Sonuç kartı: `🦆 Vak! #142 · 15/15 · 2:41 · 💡0`. Push bildirimiyle hatırlatılır | v1.0 |
 | **Sakla & Gönder** | Hazır bir sahne seçilir, 5–10 ördek saklanır, link paylaşılır. Arkadaş bulunca süresi karşılaştırılır | v1.0 |
 | **Ördek Yarışı** | Aynı link, 2–8 kişi, asenkron skor tablosu | v1.2 |
-| **Sezonluk paketler** | Cadılar Bayramı, Yılbaşı, yaz, Bayram | v1.1+ |
+| **Sezonluk etkinlikler** | Cadılar Bayramı, Yılbaşı, yaz, Bayram; süreli ve renkli sahneler | v1.1+ |
 
 ---
 
@@ -81,15 +81,17 @@ Bonus: **Mini çok oyunculu "Ördek Yarışı"** (v1.2+). Aynı link, aynı sahn
 En önemli ayrışma ve büyüme motoru bu mod.
 
 1. Oyuncu açılmış seviyelerden ya da özel "Saklama sahneleri"nden birini seçer.
-2. Ördek paletinden poz sürükler (normal, kafası görünen, şapkalı, yavru…), ölçekler ve döndürür.
+2. Ördek paletinden poz sürükler (normal, kafası görünen, şapkalı, yavru…), iki parmakla ölçekler ve döndürür.
 3. **Adalet kontrolü:** Ördeğin en az %30'u görünür olmalı ve en az 40 px boyutunda olmalı. Değilse "Bu çok zor, kimse bulamaz!" uyarısı çıkar.
-4. "Gönder" ile kısa bir link oluşur (`vak.game/h/AB12CD`) ve WhatsApp/Instagram paylaşım menüsü açılır.
-5. Arkadaş linki tarayıcıda açar ve **kurulum olmadan** oynar. Bitince ona şu sorulur: "Sen de birine ördek sakla!" → döngü başa döner.
-6. Saklayan kişi, kaç kişinin bulduğunu ve ortalama süreyi görür.
+4. "Gönder" ile kısa bir link oluşur (`vak.game/h/AB12CD`) ve telefonun paylaşım menüsü açılır (WhatsApp, Instagram, Telegram).
+5. Linki açan arkadaş:
+   - **Uygulama yüklüyse:** Deep link ile bulmaca doğrudan uygulamada açılır (iOS Universal Links, Android App Links).
+   - **Uygulama yüklü değilse:** Hafif bir **web oynatıcı** açılır ve bulmaca hemen oynanır (aynı PixiJS kodu). Bitince "Sen de birine ördek sakla → Uygulamayı indir" butonu çıkar. Deferred deep link sayesinde, uygulama kurulunca aynı bulmaca ve skoru uygulamada görünür.
+6. Saklayan kişi, kaç kişinin bulduğunu ve ortalama süreyi görür. "Arkadaşın bulmacanı çözdü!" push bildirimi gelir.
 
-**Güvenlik ve moderasyon:** Kullanıcı görsel ya da metin yüklemez. Sadece hazır sahne + hazır ördek pozları + konumlar paylaşılır. Böylece uygunsuz içerik riski sıfıra yakın olur.
+**Güvenlik ve moderasyon:** Kullanıcı görsel ya da metin yüklemez. Sadece hazır sahne + hazır ördek pozları + konumlar paylaşılır. Böylece uygunsuz içerik riski sıfıra yakın olur ve mağaza UGC kurallarına uyum kolaylaşır.
 
-**Veri:** Link, `{ sceneId, ducks: [{pose, x, y, scale, rot}] }` biçiminde küçük bir JSON. İlk sürümde URL'nin içine sıkıştırılarak konabilir (sunucu gerekmez). Skor ve istatistik için daha sonra hafif bir backend eklenir (Cloudflare Workers + KV ya da Supabase).
+**Veri:** Bulmaca `{ sceneId, ducks: [{pose, x, y, scale, rot}] }` biçiminde küçük bir JSON. Kısa link ve skorlar hafif bir backend'de tutulur.
 
 ---
 
@@ -98,13 +100,15 @@ En önemli ayrışma ve büyüme motoru bu mod.
 ### Stil kuralları
 - **Çizgi:** Tek kalınlıkta siyah çizgi (2048 px'lik sahnede 4–6 px), uçlar yuvarlak. Tarama ve gölge yok.
 - **Renkli katman:** Düz pastel renkler, sahne başına 6–8 renk. **Ördek sarısı (#FFD23F) sahnenin geri kalanında kullanılmaz**, böylece bulunan ördek hemen göze çarpar.
-- **Format:** Önce SVG çizilir, oyun için WebP'ye çevrilir (2048×1536).
+- **Yön:** Sahneler **dikey (portrait) 1536×2048** çizilir, telefonda tek elle oynanır. Boss seviyeleri dikeyde 2 kat uzun (1536×4096) olur ve aşağı kaydırılır.
+- **Format:** Önce SVG çizilir, oyun için WebP'ye çevrilir. Uygulama boyutu hedefi < 80 MB. Sonraki dünyalar uygulama içinden indirilir.
 - **Araçlar:** Inkscape, Krita veya Procreate. Tek bir fırça preset'i kullanılır.
-- **Yapay zeka:** Sadece taslak ve kompozisyon için. Son çizgiler elle temizlenir. Steam'de beyan edilir.
+- **Yapay zeka:** Sadece taslak ve kompozisyon için. Son çizgiler elle temizlenir.
 
 ### Ördek karakteri
 - Gövde: yumurta şekli. Kafa: daire. Gaga: turuncu yuvarlak üçgen (#FF8C42). Göz: tek siyah nokta. Kuyruk: yukarı kalkık küçük sivri uç.
 - Renk: sarı #FFD23F, gölge tonu #F2B705 (sadece renkli katmanda).
+- Uygulama ikonu: sarı zemin üzerinde büyüteçle bakan bir ördek. Siyah-beyaz/renkli ikili bir tasarımla mağazada tanınır.
 
 ### Poz kütüphanesi (12 poz)
 | # | Poz | Saklama fikri |
@@ -122,9 +126,9 @@ En önemli ayrışma ve büyüme motoru bu mod.
 | 11 | Ördek desenli obje | Halı, perde deseninde gizli (zor) |
 | 12 | Altın ördek | Her seviyede 1 tane |
 
-### Saklama kuralları (adil zorluk)
+### Saklama kuralları (adil zorluk, telefona göre)
 - Ördeğin **en az %30'u** görünür olmalı; gaga veya göz görünmeli.
-- %100 zoom'da en küçük ördek 40 px. Mobilde dokunma alanı en az 44 pt.
+- %100 zoom'da en küçük ördek 40 px. Dokunma alanı en az **44 pt** (iOS) / **48 dp** (Android). Küçük ördeklerde dokunma alanı görselden büyük tutulur.
 - Tuzak objeler (limon, muz, sarı top, civciv) kullanılabilir. Ama siyah-beyaz sahnede ördeği her zaman gaga ve kuyruk ele vermeli.
 - Sahne 3×3 ızgaraya bölünür; her hücreye en fazla N/4 ördek konur.
 
@@ -132,7 +136,7 @@ En önemli ayrışma ve büyüme motoru bu mod.
 
 ## 6. Dünyalar ve seviyeler (v1.0: 5 dünya × 6 seviye = 30 seviye)
 
-Zorluk yavaşça artar: ördek sayısı, sahne yoğunluğu ve yeni saklama türü.
+Zorluk yavaşça artar: ördek sayısı, sahne yoğunluğu ve yeni saklama türü. Mobil oturumlar kısa olduğu için seviyeler **2–5 dakikada** bitecek şekilde tasarlanır. Find The Cat 2 de daha kısa seviyelere geçti.
 
 | Dünya | Tema | Seviyeler | Ördek sayısı | Yeni saklama türü |
 |---|---|---|---|---|
@@ -142,31 +146,36 @@ Zorluk yavaşça artar: ördek sayısı, sahne yoğunluğu ve yeni saklama tür�
 | 4 | 🍰 **Pastane & Mutfak** | 19–24 | 18 → 28 | Süs ördekler, limon/muz tuzakları |
 | 5 | 🎡 **Lunapark Gecesi** | 25–30 | 22 → 35 | Siluetler, ördek yakalama standı, yansımalar |
 
-Her dünyanın 6. seviyesi büyük ve "boss" seviyesidir: sahne 2 kat genişliğinde olur ve daha çok ördek içerir.
+Her dünyanın 6. seviyesi büyük ve "boss" seviyesidir: dikeyde 2 kat uzun bir sahne ve daha çok ördek içerir. Yayından sonra **her 2 haftada yeni bir dünya veya etkinlik** eklenir (canlı içerik, tutundurma için şart).
 
 ### Seviye 1–6 (ilk prototip içeriği)
 | Seviye | Sahne | Ördek | Not |
 |---|---|---|---|
-| 1 | Küvet, köpük, havlu | 5 | Öğretici: dokunma ve zoom'u gösterir, ördekler açıkta |
+| 1 | Küvet, köpük, havlu | 5 | Öğretici: dokunma ve pinch-zoom'u gösterir, ördekler açıkta |
 | 2 | Lavabo ve dolap | 6 | İlk kısmi saklanma (dolap kapağı arkası) |
 | 3 | Çocuk odası, oyuncaklar | 8 | Oyuncakların arasında benzer şekiller |
 | 4 | Çamaşır odası | 9 | İlk "sadece kafa" ördekler (sepetten) |
-| 5 | Oturma odası | 10 | Süs ördekler (raf, avize) |
-| 6 | **Boss:** Bütün ev (kesit görünüm) | 12 | Geniş sahne, altın ördek burada tanıtılır |
+| 5 | Oturma odası | 10 | Süs ördekler (raf, avize). **Bu seviyeden sonra Sakla & Gönder açılır** |
+| 6 | **Boss:** Bütün ev (kesit görünüm, uzun) | 12 | Altın ördek burada tanıtılır |
 
 Saklama sahneleri (Sakla & Gönder için): v1.0'da 6 sahne (Seviye 1, 7, 13, 19, 25'in boş versiyonları + 1 özel sahne).
 
 ---
 
-## 7. Teknik plan
+## 7. Teknik plan (mobil)
 
 ### Teknoloji
-- **TypeScript + Vite + PixiJS v8.** Zoom/pan ve maskeli renklendirme için hızlı ve hafif.
-- **Web:** Kendi alan adımız + CrazyGames/Poki SDK'sı (reklam ve analitik oradan).
-- **Steam:** Electron veya Tauri ile paketleme.
-- **Mobil (sonra):** Capacitor.
-- **Backend (v1.0 sonrası):** Cloudflare Workers + KV. Kısa linkler, günlük bulmaca skorları ve Sakla & Gönder istatistikleri için.
-- **Kayıt:** İlerleme `localStorage` (web) / dosya (Steam).
+| Katman | Seçim | Neden |
+|---|---|---|
+| Oyun motoru | **TypeScript + PixiJS v8** | 2D zoom/pan ve maskeli renklendirme için hafif ve hızlı. **Aynı kod web oynatıcıda da çalışır** (Sakla & Gönder linkleri için şart) |
+| Mobil paketleme | **Capacitor** (iOS + Android) | Web kodunu native uygulamaya çevirir; haptic, push, paylaşım, IAP ve reklam eklentileri var |
+| Derleme | Vite | Hızlı geliştirme |
+| Backend | **Firebase** (Auth anonim giriş, Firestore, Cloud Functions, FCM push, Analytics, Remote Config) | Kısa linkler, skorlar, günlük bulmaca, A/B test; küçük ekip için hazır |
+| Deep link | Universal Links + App Links + deferred deep link (Branch veya Adjust ya da kendi çözümümüz) | Link → uygulama veya web oynatıcı → kurulum → aynı bulmaca |
+| Reklam | AdMob (sadece ödüllü reklam) | Oyun ortasında geçiş reklamı yok |
+| IAP | RevenueCat | iOS ve Android satın alımlarını tek yerden yönetir, "reklamı kaldır" satın alımı güvenilir çalışır |
+
+Alternatif: Performans sorun çıkarırsa motor **Godot 4** ya da **Unity**'ye taşınabilir. Ama o zaman web oynatıcının ayrıca yapılması gerekir. Bu yüzden PixiJS + Capacitor ile başlıyoruz ve M1'de düşük seviye bir Android cihazda performans testi yapıyoruz.
 
 ### Renklendirme
 Her seviyede iki görsel olur: `line.webp` (siyah-beyaz) ve `color.webp` (renkli). Bir ördek bulununca, renkli katmandan o ördeğin şekli maske olarak açılır. Seviye bitince bütün renkli katman 1 saniyede görünür hale gelir.
@@ -180,81 +189,111 @@ Bkz. [`levels/levels.json`](levels/levels.json).
   "id": "w1-l01",
   "world": 1,
   "name": "Köpüklü Küvet",
-  "size": [2048, 1536],
+  "size": [1536, 2048],
   "line": "art/world-1/level-01/line.webp",
   "color": "art/world-1/level-01/color.webp",
   "ducks": [ { "id": 1, "x": 512, "y": 780, "r": 48, "pose": "side" } ],
-  "golden": { "x": 1800, "y": 300, "r": 30 },
+  "golden": { "x": 1200, "y": 300, "r": 30 },
   "hideable": true
 }
 ```
 
 ### Seviye editörü = Sakla & Gönder'in temeli
-Editörü iki parça olarak yapacağız:
-1. **Geliştirici editörü:** Sahneye gömülü ördeklerin konumunu ve yarıçapını işaretler, JSON olarak dışa aktarır.
-2. **Oyuncu editörü (Sakla & Gönder):** Aynı kod; poz sürükleme, adalet kontrolleri ve link üretme eklenir.
+1. **Geliştirici editörü** (masaüstü tarayıcı): Sahneye gömülü ördeklerin konumunu ve yarıçapını işaretler, JSON olarak dışa aktarır.
+2. **Oyuncu editörü** (uygulama içi): Aynı kod; dokunmatik poz sürükleme, adalet kontrolleri ve link üretme eklenir.
 
 ### Klasör yapısı
 ```
 art/
   characters/         # ördek poz kütüphanesi (SVG)
-  world-1/level-01/   # line.svg, color.svg, line.webp, color.webp
+  world-1/level-01/   # line.svg, color.svg, line.webp, color.webp, empty.webp
 levels/levels.json
 src/
   scenes/             # Menu, WorldMap, Level, Daily, Hide, Result
   editor/             # geliştirici + oyuncu editörü
-  share/              # link kodlama, sonuç kartı
+  share/              # link, deep link, sonuç kartı, video dışa aktarma
+  platform/           # Capacitor eklentileri (haptic, push, IAP, ads)
+web-player/           # link açıldığında çalışan hafif oynatıcı
+ios/ android/         # Capacitor native projeler
 research/
 ```
 
 ---
 
-## 8. Platform ve para kazanma
+## 8. Para kazanma (mobil, dürüst model)
 
-| Sıra | Platform | Para kazanma | Neden |
-|---|---|---|---|
-| 1 | **Web** (kendi site + CrazyGames/Poki) | Seviyeler arasında isteğe bağlı ödüllü reklam, platform gelir paylaşımı | Hızlı test, link paylaşımı, viral döngü |
-| 2 | **Steam** | Premium **$2.99** (Ducks in Disguise $1.99 ama bizde UGC ve günlük mod var). İleride küçük DLC'ler | Cozy hidden object nişi Steam ortalamasının 2,5 katı başarılı, reklam bütçesi gerekmez |
-| 3 | **Mobil** (sadece metrikler iyiyse) | Ücretsiz + **tek seferlik "Reklamsız + 30 ipucu" ($2.99)**, tema paketleri. Zorunlu geçiş reklamı yok | Türün şikayetine dürüst bir cevap |
+| Kalem | Detay |
+|---|---|
+| Ücretsiz indirme | Bütün 30 seviye ücretsiz |
+| Ödüllü reklam | Sadece oyuncu isterse: +2 ipucu, günlük bulmacada 2. deneme. **Geçiş (interstitial) reklamı yok** |
+| **"Reklamsız + 30 ipucu"** | Tek seferlik $2.99. RevenueCat ile doğrulanır, satın alım geri yüklenebilir |
+| İpucu paketleri | $0.99 / $1.99 / $4.99 |
+| Tema/dünya paketleri | Sezonluk premium dünyalar ($1.99) |
+| **Ördek Kulübü** (v1.1+) | Aylık $2.99: her gün ekstra zor bulmaca, sınırsız ipucu, özel ördek kostümleri, Sakla & Gönder'de özel sahneler. Agave'nin "Cat Club" modeli |
 
-Mobile geçiş şartları: web'de 1. gün tutundurma > %35, Sakla & Gönder paylaşım oranı > %10, paylaşılan link başına > 1,5 yeni oyuncu.
+Mağaza açıklamasında ve ekran görüntülerinde **"Oyun ortasında reklam yok"** açıkça yazılır. Bu bizim pazarlama mesajımız.
 
 ---
 
-## 9. Yol haritası
+## 9. Büyüme (UA bütçesi olmadan)
+
+| Kanal | Ne yapılacak |
+|---|---|
+| **Sakla & Gönder** | Her paylaşım bir web oynatıcı oturumu → kurulum. Ana kanal |
+| **Günlük Ördek sonuç kartı** | WhatsApp gruplarında ve X/Instagram'da paylaşım |
+| **TikTok / Reels / Shorts** | Haftada 5 adet "Kaç ördek bulabildin? 👀" videosu. Uygulama içi "video olarak dışa aktar" butonu ile oyuncuların da üretmesi sağlanır |
+| **ASO** | Anahtar kelimeler: hidden object, find the duck, spot it, rubber duck, relaxing puzzle, ördek bul, gizli nesne. Siyah-beyaz → renkli dönüşümünü gösteren ekran görüntüleri ve kısa video |
+| **Küçük ölçekli UA testi** | Soft launch'ta 200–500 $ ile CPI ölçümü (TikTok Ads, Meta) |
+| **Öne çıkarılma (featuring)** | Reklamsız, aile dostu, yerel (İstanbul) dünya: Apple/Google editörlerine başvuru |
+
+### Soft launch
+- **Ülkeler:** Filipinler + Kanada (Android ve iOS ucuz test), ardından Türkiye.
+- **Süre:** 4–6 hafta. Metrik hedefleri tutarsa global yayın, tutmazsa iterasyon.
+
+---
+
+## 10. Yol haritası
 
 | Aşama | Süre | Çıktı |
 |---|---|---|
 | **M0 – Doğrulama** | 1 hafta | Seviye 1 çizimi; 3 TikTok/Reels "Kaç ördek bulabildin?" videosu; ilgi ölçümü |
-| **M1 – Prototip** | 2 hafta | Zoom/pan, dokunarak bulma, sayaç, renklenme; Seviye 1–3 + geliştirici editörü |
-| **M2 – Viral çekirdek** | 2 hafta | Sakla & Gönder (URL içinde veri), Günlük Ördek + sonuç kartı; 20 kişiyle test |
-| **M3 – Dikey dilim** | 2 hafta | Dünya 1 tamamen bitmiş, ses, ipucu, yıldız, menü; web'de yayın (itch.io + kendi site) |
-| **M4 – İçerik** | 4–6 hafta | Dünya 2–5; Steam sayfasını aç (wishlist hedefi 2000+), CrazyGames/Poki başvurusu |
-| **M5 – Yayın** | 2 hafta | Steam sürümü (Next Fest demosu ile), backend + skor tabloları |
-| **M6 – Mobil** | koşullu | Sadece metrik şartları sağlanırsa |
+| **M1 – Prototip** | 2 hafta | PixiJS + Capacitor; pinch-zoom/pan, dokunarak bulma, haptic, renklenme; Seviye 1–3; düşük seviye Android'de performans testi |
+| **M2 – Viral çekirdek** | 3 hafta | Sakla & Gönder + web oynatıcı + deep link; Günlük Ördek + sonuç kartı + push; Firebase |
+| **M3 – Dikey dilim** | 2 hafta | Dünya 1 tamamen bitmiş, ses, ipucu, yıldız, menü; TestFlight + Google Play iç test ile 30 kişi |
+| **M4 – İçerik + para kazanma** | 4–6 hafta | Dünya 2–5, RevenueCat IAP, AdMob ödüllü reklam, analitik, mağaza görselleri |
+| **M5 – Soft launch** | 4–6 hafta | Filipinler + Kanada (+ Türkiye); metrik takibi, A/B testleri (Remote Config) |
+| **M6 – Global yayın** | – | iOS + Android; 2 haftada bir yeni içerik ve etkinlik |
 
-## 10. Başarı metrikleri
+Hesaplar: Apple Developer Program (yıllık $99) ve Google Play Console (tek seferlik $25) M3'ten önce açılmalı.
+
+## 11. Başarı metrikleri (soft launch hedefleri)
 | Metrik | Hedef |
 |---|---|
-| 1. gün tutundurma (web) | > %35 |
-| Seviye 1'i bitirme oranı | > %80 |
+| 1. gün tutundurma (D1) | > %40 |
+| 7. gün tutundurma (D7) | > %15 |
+| Ortalama oturum süresi | > 8 dk |
+| Seviye 1'i bitirme oranı | > %85 |
 | Sakla & Gönder kullanan oyuncu oranı | > %15 |
-| Paylaşılan link başına yeni oyuncu | > 1,5 |
-| Günlük Ördek sonuç kartı paylaşım oranı | > %10 |
-| Steam wishlist (yayından önce) | 2000+ |
+| Paylaşılan link başına yeni kurulum (K-faktörü) | > 0,3 |
+| Organik kurulum oranı | > %60 |
+| Mağaza puanı | > 4,6 |
+| CPI (test kampanyası) | < $0,50 (Tier-3), < $2 (Tier-1) |
 
-## 11. Riskler
+## 12. Riskler
 | Risk | Önlem |
 |---|---|
-| Ducks in Disguise ve ördek klonları | UGC, günlük mod, web; daha geniş içerik (30+ seviye) |
+| Find The Ducks ve büyük bütçeli kedi/köpek oyunları UA'da baskın | UA'ya değil organik büyümeye yaslanmak: Sakla & Gönder, TikTok, ASO, "reklamsız" mesajı |
+| Reklamsız model gelirini düşük tutabilir | Ödüllü reklam + tek seferlik paket + abonelik; Remote Config ile test |
+| PixiJS + Capacitor performansı (eski Android) | M1'de test; gerekirse görsel çözünürlüğü düşürme veya Godot'ya geçiş |
+| Deep link / web oynatıcı karmaşıklığı | İlk sürümde basit çözüm (kısa link → web oynatıcı → mağaza); deferred deep link M5'te |
 | Çizim üretimi yavaş kalabilir | Poz kütüphanesi + tekrar kullanılabilir sahne parçaları; yapay zeka ile taslak |
-| UGC'de kötüye kullanım | Sadece hazır sahne ve pozlar; metin ya da görsel yükleme yok |
-| Adil olmayan zorluk | Saklama kuralları, editörde otomatik kontroller |
-| İsim çakışması | M4'ten önce mağaza ve marka araştırması |
+| UGC kötüye kullanımı / mağaza kuralları | Sadece hazır sahne ve pozlar; metin ya da görsel yükleme yok; şikayet butonu |
+| Çocuk kitlesi (COPPA / Families politikası) | Hedef kitle 13+ olarak işaretlenir; reklamlarda kişiselleştirme kapatılabilir |
+| İsim çakışması | Mağazaya göndermeden önce isim ve marka araştırması |
 
-## 12. Hemen sonraki adımlar
+## 13. Hemen sonraki adımlar
 1. [ ] Ördek poz kütüphanesini çiz (`art/characters/`, 12 SVG).
-2. [ ] Seviye 1 "Köpüklü Küvet" sahnesini çiz (line + color).
-3. [ ] Vite + PixiJS projesini kur, zoom/pan + dokunarak bulma prototipini yap.
+2. [ ] Seviye 1 "Köpüklü Küvet" sahnesini dikey olarak çiz (line + color).
+3. [ ] Vite + PixiJS + Capacitor projesini kur; telefonda pinch-zoom + dokunarak bulma prototipini yap.
 4. [ ] Geliştirici editörünü yap ve Seviye 1'in ördeklerini yerleştir.
-5. [ ] Sakla & Gönder'in URL kodlamasını yap.
+5. [ ] Apple Developer ve Google Play Console hesaplarını aç.

@@ -138,3 +138,9 @@ Veriler hidden object nişinin küçük bir ekip için **iyi bir seçim** olduğ
 | Domuz | Türkiye ve Orta Doğu pazarında sorun ❌ |
 
 **Ördek rakipleri:** [Ducks in Disguise](https://ladiesgamers.com/ducks-in-disguise-review/) (Steam/Switch 2026; siyah-beyaz sahneler, 24 seviye, $1.99) bize en yakın rakip. Ayrıca [Find The Ducks](https://apps.apple.com/app/id6745335890) (mobil klon), [Find 100 Ducks and Blast Them](https://www.dekudeals.com/items/find-100-ducks-and-blast-them) (3D) ve [Quck My Duck](https://clirgo.itch.io/quck-my-duck) var. Yani tema boş değil. **Ayrışma, temadan değil özelliklerden gelmeli:** reklamsız oyun, Sakla & Gönder, Günlük Ördek + sonuç kartı, önce web. Ayrıntılar `PLAN.md` § 2'de.
+
+---
+
+## 9. Platform kararı (güncelleme): Mobil
+
+Proje **mobil (iOS + Android)** olarak yapılacak. Bölüm 6'daki "önce web + Steam" önerisinin yerine bu karar geçerli. Mobil pazarda reklam (UA) bütçesiyle rekabet zor olduğu için büyüme organik kanallara dayanacak: Sakla & Gönder linkleri (uygulaması olmayanlar için hafif web oynatıcı), Günlük Ördek sonuç kartı, TikTok/Reels içerikleri ve ASO. Ayrıntılar `PLAN.md` § 8–9'da.

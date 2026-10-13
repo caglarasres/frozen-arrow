@@ -1,14 +1,45 @@
 {
-  "version": 2,
+  "version": 3,
   "animal": "duck",
   "worlds": [
-    { "id": 1, "name": "Banyo & Ev", "palette": ["#8EC3E6", "#CFE8F3", "#F4F1EA", "#E8B4B8", "#9BC59D", "#B9A6D9"] },
-    { "id": 2, "name": "Park & Gölet", "palette": [] },
-    { "id": 3, "name": "Şehir", "palette": [] },
-    { "id": 4, "name": "Pastane & Mutfak", "palette": [] },
-    { "id": 5, "name": "Lunapark Gecesi", "palette": [] }
+    {
+      "id": 1,
+      "name": "Banyo & Ev",
+      "palette": [
+        "#8EC3E6",
+        "#CFE8F3",
+        "#F4F1EA",
+        "#E8B4B8",
+        "#9BC59D",
+        "#B9A6D9"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Park & Gölet",
+      "palette": []
+    },
+    {
+      "id": 3,
+      "name": "Şehir",
+      "palette": []
+    },
+    {
+      "id": 4,
+      "name": "Pastane & Mutfak",
+      "palette": []
+    },
+    {
+      "id": 5,
+      "name": "Lunapark Gecesi",
+      "palette": []
+    }
   ],
-  "duckColors": { "body": "#FFD23F", "shade": "#F2B705", "beak": "#FF8C42" },
+  "duckColors": {
+    "body": "#FFD23F",
+    "shade": "#F2B705",
+    "beak": "#FF8C42"
+  },
   "levels": [
     {
       "id": "w1-l01",
@@ -17,16 +48,86 @@
       "tutorial": true,
       "hideable": true,
       "targetCount": 5,
-      "size": [2048, 1536],
+      "size": [
+        1536,
+        2048
+      ],
       "line": "art/world-1/level-01/line.webp",
       "color": "art/world-1/level-01/color.webp",
       "ducks": [],
       "golden": null
     },
-    { "id": "w1-l02", "world": 1, "name": "Lavabo ve Dolap", "targetCount": 6, "size": [2048, 1536], "line": "art/world-1/level-02/line.webp", "color": "art/world-1/level-02/color.webp", "ducks": [], "golden": null },
-    { "id": "w1-l03", "world": 1, "name": "Çocuk Odası", "targetCount": 8, "size": [2048, 1536], "line": "art/world-1/level-03/line.webp", "color": "art/world-1/level-03/color.webp", "ducks": [], "golden": null },
-    { "id": "w1-l04", "world": 1, "name": "Çamaşır Odası", "targetCount": 9, "size": [2048, 1536], "line": "art/world-1/level-04/line.webp", "color": "art/world-1/level-04/color.webp", "ducks": [], "golden": null },
-    { "id": "w1-l05", "world": 1, "name": "Oturma Odası", "targetCount": 10, "size": [2048, 1536], "line": "art/world-1/level-05/line.webp", "color": "art/world-1/level-05/color.webp", "ducks": [], "golden": null },
-    { "id": "w1-l06", "world": 1, "name": "Bütün Ev", "boss": true, "targetCount": 12, "size": [4096, 1536], "line": "art/world-1/level-06/line.webp", "color": "art/world-1/level-06/color.webp", "ducks": [], "golden": null }
-  ]
+    {
+      "id": "w1-l02",
+      "world": 1,
+      "name": "Lavabo ve Dolap",
+      "targetCount": 6,
+      "size": [
+        1536,
+        2048
+      ],
+      "line": "art/world-1/level-02/line.webp",
+      "color": "art/world-1/level-02/color.webp",
+      "ducks": [],
+      "golden": null
+    },
+    {
+      "id": "w1-l03",
+      "world": 1,
+      "name": "Çocuk Odası",
+      "targetCount": 8,
+      "size": [
+        1536,
+        2048
+      ],
+      "line": "art/world-1/level-03/line.webp",
+      "color": "art/world-1/level-03/color.webp",
+      "ducks": [],
+      "golden": null
+    },
+    {
+      "id": "w1-l04",
+      "world": 1,
+      "name": "Çamaşır Odası",
+      "targetCount": 9,
+      "size": [
+        1536,
+        2048
+      ],
+      "line": "art/world-1/level-04/line.webp",
+      "color": "art/world-1/level-04/color.webp",
+      "ducks": [],
+      "golden": null
+    },
+    {
+      "id": "w1-l05",
+      "world": 1,
+      "name": "Oturma Odası",
+      "targetCount": 10,
+      "size": [
+        1536,
+        2048
+      ],
+      "line": "art/world-1/level-05/line.webp",
+      "color": "art/world-1/level-05/color.webp",
+      "ducks": [],
+      "golden": null
+    },
+    {
+      "id": "w1-l06",
+      "world": 1,
+      "name": "Bütün Ev",
+      "boss": true,
+      "targetCount": 12,
+      "size": [
+        1536,
+        4096
+      ],
+      "line": "art/world-1/level-06/line.webp",
+      "color": "art/world-1/level-06/color.webp",
+      "ducks": [],
+      "golden": null
+    }
+  ],
+  "orientation": "portrait"
 }
